@@ -1,14 +1,27 @@
 <template>
 
     <div id="wheel">
-    
+        <filter id="dropshadow" height="130%">
+        <feGaussianBlur in="SourceAlpha" stdDeviation="1"/> <!-- stdDeviation is how much to blur -->
+        <feOffset dx="2" dy="2" result="offsetblur"/> <!-- how much to offset -->
+        <feComponentTransfer>
+            <feFuncA type="linear" slope="0.6"/> <!-- slope is the opacity of the shadow -->
+        </feComponentTransfer>
+        <feMerge> 
+            <feMergeNode/> <!-- this contains the offset blurred image -->
+            <feMergeNode in="SourceGraphic"/> <!-- this contains the element that the filter is applied to -->
+        </feMerge>
+        </filter>
         <svg xmlns="http://www.w3.org/2000/svg"
-            :width='2.2*lrad' 
-            :height="2.2*lrad" 
+            :width='lrad*2.2' 
+            :height="lrad*2.2" 
             :viewBox="-lrad*0.1+' '+-lrad*0.1+' '+ lrad*2.2 +' '+ lrad*2.2" 
             version="1.1"
+            filter="url(#dropshadow)"
         >
-            <wheelMenuBtnArc v-for="(p,id) in btnParams" :btnbody='p' :key='id'/>
+            <wheelMenuBtnArc v-for="(p,id) in btnParams" 
+                :btnbody='p' 
+                :key='id'/>
         </svg>
     </div>
 
@@ -26,18 +39,19 @@ export default {
     components:{
         'wheelMenuBtnArc':WheelMenuBtn,
     },
-    data(){        
+    data(){ 
         let res = [];
-
-        var points = [];
-        var lvec = new Victor(0, this.lrad);
-        var svec = new Victor(0, this.srad);
+        const num = this.btns.length;
+        let points = [];
+        let lvec = new Victor(0, this.lrad);
+        let svec = new Victor(0, this.srad);
         let lradvec = new Victor(this.lrad,this.lrad);
-        let angle = (Math.PI*2)/this.num
-        lvec.rotate((Math.PI)/this.num);
-        svec.rotate((Math.PI)/this.num);
+        const angle = (Math.PI*2)/num
+        
+        lvec.rotate(angle/2);
+        svec.rotate(angle/2);
 
-        for(var i = 0; i < this.num; i++){
+        for(let i = 0; i < num; i++){
             points = [];
             lvec.add(lradvec);
             svec.add(lradvec);
@@ -54,7 +68,7 @@ export default {
             lvec.subtract(lradvec);
             svec.subtract(lradvec);
 
-            res[i] = new WheelBtn(i, this.num, points, '', this.lrad, this.srad);
+            res[i] = new WheelBtn(i, num, points, this.btns[i].icon, this.lrad, this.srad);
         }
 
         return {
@@ -63,9 +77,9 @@ export default {
         }
     },
     props:{
-        num:Number,
         srad:Number, 
-        lrad:Number
+        lrad:Number,
+        btns:Array
     },
     methods:{
 
@@ -86,11 +100,14 @@ export default {
 <style>
 
     #wheel{
-        position: relative;
-        width: 300px;
-        background-color: rgb(63, 63, 63);
-        margin: 10px;
-        margin-left: 10px;
+        position: absolute;
+        border-radius: 50%;
+        background-color: rgba(255, 255, 255, 0);
+    }
+
+    #wheel:hover{
+        stroke: black;
+        border-color: black;
     }
 
     .bee{
