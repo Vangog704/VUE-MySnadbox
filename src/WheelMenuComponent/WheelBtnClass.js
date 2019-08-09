@@ -8,7 +8,7 @@ export default class WheelBtn{
         this.outrad = outrad, // outside radius
         this.inrad = inrad // inside radius
         this.center = new Victor(0,0);
-        console.log(points[0].toString());
+        
         this.centerCalc(num);
     }
 

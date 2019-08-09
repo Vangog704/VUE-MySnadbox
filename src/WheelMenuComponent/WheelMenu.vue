@@ -18,10 +18,14 @@
 
 <script>
 import Victor from './../../node_modules/victor';
+import WheelMenuBtn from './WheelMenuBtnArcSVGComponent.vue'
 import WheelBtn from './WheelBtnClass.js';
 
 export default {
     name: 'wheel',
+    components:{
+        'wheelMenuBtnArc':WheelMenuBtn,
+    },
     data(){        
         let res = [];
 
