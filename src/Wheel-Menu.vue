@@ -13,15 +13,12 @@
 
 <script>
 
-import Victor from '../node_modules/victor';
+import Victor from './../node_modules/victor';
 
 export default {
     name: 'app',
     data: function(){
         console.log('data!!!!');
-        
-        var vic = new Victor(10, 10);
-        vic.x;
 
         return {
             title:'myCanvas'
