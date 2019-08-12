@@ -1,27 +1,18 @@
 <template>
 
     <div id="wheel">
-        <filter id="dropshadow" height="130%">
-        <feGaussianBlur in="SourceAlpha" stdDeviation="1"/> <!-- stdDeviation is how much to blur -->
-        <feOffset dx="2" dy="2" result="offsetblur"/> <!-- how much to offset -->
-        <feComponentTransfer>
-            <feFuncA type="linear" slope="0.6"/> <!-- slope is the opacity of the shadow -->
-        </feComponentTransfer>
-        <feMerge> 
-            <feMergeNode/> <!-- this contains the offset blurred image -->
-            <feMergeNode in="SourceGraphic"/> <!-- this contains the element that the filter is applied to -->
-        </feMerge>
-        </filter>
         <svg xmlns="http://www.w3.org/2000/svg"
-            :width='lrad*2.2' 
-            :height="lrad*2.2" 
+            @mousemove="onhover($event)"
+            :width='lrad*2.6' 
+            :height="lrad*2.6" 
             :viewBox="-lrad*0.1+' '+-lrad*0.1+' '+ lrad*2.2 +' '+ lrad*2.2" 
             version="1.1"
-            filter="url(#dropshadow)"
+            id="wheel-svg"
         >
-            <wheelMenuBtnArc v-for="(p,id) in btnParams" 
+            <wheelMenuBtnArc class="weelmenubtn" v-for="(p,id) in btnParams" 
                 :btnbody='p' 
-                :key='id'/>
+                :key='id'
+            />
         </svg>
     </div>
 
@@ -83,6 +74,40 @@ export default {
     },
     methods:{
 
+        onhover(event){
+            let x = event.offsetX;
+            let y = event.offsetY;
+
+            let w, h,dx,dy; 
+            // console.log('x: '+x+' y: '+y);
+            // console.log(event);
+            // if(event.target.attributes.width !== undefined|null){
+            //     w = event.target.attributes.width;
+            //     h = event.target.attributes.height;
+            //     // console.log(event.target.attributes.width);
+            // }
+            // else if(event.fromElement.nearestViewportElement !== null){
+            //     w = event.fromElement.nearestViewportElement.attributes.width;
+            //     h = event.fromElement.nearestViewportElement.attributes.height;
+            //     // console.log(event.fromElement.nearestViewportElement.attributes.width);
+            // }
+
+            // if(event.path[3].tagName == 'svg'){
+            //     w = event.path[3].clientWidth;
+            //     h = event.path[3].clientHeight;
+            //     // console.log(event.fromElement.nearestViewportElement.attributes.width);
+            //     // console.log(w,h,x,y);
+            //     if(w && h && y && x){
+            //         w=w/2; h=h/2;
+            //         let dx = (x - w)/w*25;
+            //         let dy = (y - h)/h*25;
+            //         // console.log('dx: '+dx+' - dy: '+dy); 
+            //         // event.fromElement.nearestViewportElement.style['transform-style'] = "preserve-3d";
+            //         event.path[3].style.transform = "rotateX("+dy+"deg) rotateY("+-dx+"deg)";
+            //     }
+            // }
+        },
+
         updateCanvas: function(){    
             
         } 
@@ -101,13 +126,40 @@ export default {
 
     #wheel{
         position: absolute;
-        border-radius: 50%;
-        background-color: rgba(255, 255, 255, 0);
+        transform: translate(100px, 100px) ;
+        /* border-radius: 50%; */
+        background-color: rgba(54, 54, 54, 255);
+        backface-visibility: hidden;
+        /* background-color: #dfa81e; */
+        perspective: 15cm;
     }
 
     #wheel:hover{
         stroke: black;
         border-color: black;
+    }
+
+    #wheel-svg{
+        transition-duration: 1s 1s;
+        transition-property: filter transform;
+        backface-visibility: hidden;
+        /* filter: drop-shadow(3px 3px 4px #3f003f); */
+        /* filter: drop-shadow(0 0 0.40rem rgb(99, 0, 58)); */
+    }
+    #wheel-svg:hover {
+        transition-duration: 0.5s;
+        transition-property: filter;
+        /* filter: drop-shadow(3px 3px 4px #ff41ff); */
+        /* filter: drop-shadow(0 0 0.30rem rgb(255, 62, 174)); */
+        filter: drop-shadow(0 0 0.30rem rgb(83, 249, 255));
+        /* transform: rotateX(10deg) rotateY(10deg); */
+    }
+
+    .info{
+        font: 20px sans-serif; 
+        inline-size: 200px;
+        position:inherit;
+        text-align: center;
     }
 
     .bee{
