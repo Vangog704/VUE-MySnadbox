@@ -3,10 +3,16 @@
     <div id="app">
         <canvas :id="title" width="578" height="200"></canvas>
         
-        <!-- <wheel-menu :num=5 :srad=60 :lrad=110></wheel-menu> -->
-        <wheel-menu :num=6 :srad=90 :lrad=150 :btns="btnarray" />
-        <!-- <wheel-menu :num=8 :srad=60 :lrad=110></wheel-menu>
-        <wheel-menu :num=12 :srad=60 :lrad=110></wheel-menu> -->
+        <!-- <wheel-menu :rotated=true :srad=60 :lrad=110></wheel-menu> -->
+        <!-- <wheel-menu :rotated=true :srad=180 :lrad=300 :btns="btnarray" /> -->
+        <wheel-menu :rotated=true :srad=90 :lrad=150 :btns="btnarray" />
+        <!-- <wheel-menu :rotated=true :srad=216 :lrad=360 :btns="btnarray" /> -->
+        <!-- <wheel-menu :rotated=true :srad=60 :lrad=100 :btns="btnarray" /> -->
+        <!-- <wheel-menu :rotated=true :srad=600 :lrad=1000 :btns="btnarray" /> -->
+        <!-- <wheel-menu :rotated=true :srad=270 :lrad=450 :btns="btnarray"/> -->
+        <!-- <wheel-menu :rotated=true :srad=180 :lrad=300 :btns="btnarray" /> -->
+        <!-- <wheel-menu :rotated=true :srad=60 :lrad=110></wheel-menu> -->
+        <!-- <wheel-menu :rotated=true :srad=60 :lrad=110></wheel-menu> -->
     </div>
 
 </template>

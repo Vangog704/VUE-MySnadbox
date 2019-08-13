@@ -5,8 +5,8 @@
         @mouseover="btnOnhover($event)" 
         @mouseout="btnOnOut($event)"
     >   
-        <filter id="blurMe">
-            <feGaussianBlur stdDeviation="0.4"/>
+        <filter id="blurHalf">
+            <feGaussianBlur stdDeviation="0.5"/>
         </filter>
 
         <path :d="
@@ -15,19 +15,19 @@
             ' L '+btnbody.ps[3].x+' '+btnbody.ps[3].y+
             ' A '+btnbody.inrad+' '+btnbody.inrad+' 1 0 0 '+btnbody.ps[1].x+' '+btnbody.ps[1].y+
             ' z '"
-            filter="url(#blurMe)"
+            filter="url(#blurHalf)"
         />
 
         <circle
                 cx=0 cy=0 r=23  
                 :style="'transform: translate('+(btnbody.center.x)+'px,'+(btnbody.center.y)+'px);'"
                 class="square"
-                filter="url(#blurMe)" 
+                filter="url(#blurHalf)" 
         />
-        
+        <!--TODO icon scale-->
         <path
             class="wheel-icon"
-            :style="'transform: translate('+(btnbody.center.x-16)+'px,'+(btnbody.center.y-16)+'px);'"
+            :style="'transform: translate('+(btnbody.center.x-16)+'px,'+(btnbody.center.y-16)+'px) scale(1,1);'"
             :d="btnbody.icon"        
         />
     </g></a>
@@ -52,28 +52,31 @@ export default {
     },
     methods:{
         btnOnhover(event){
-            let vec = this.btnbody.ps[0].clone();
-                vec.add(this.btnbody.ps[2]);
-                vec.divide(new Victor(2,2));
-                vec.subtract(new Victor(this.btnbody.outrad,this.btnbody.outrad));
-                vec.divide(new Victor(10,10));
-                vec.normalize().multiply(new Victor(4,4));
-                // console.log("HOVER: "+JSON.stringify(vec));
-                // console.log(event.target.parentElement);
-                event.target.parentElement.style.transform = "translate("+vec.x+"px,"+vec.y+"px)";
+            let w,h, coef;
+                w = h = this.btnbody.outrad;
+                coef = h / 50;
 
-            let dvec = this.btnbody.center.clone()
-                        .subtract(new Victor(165,165))
-                        .divide(new Victor(165,165))
-                        .multiply(new Victor(30,30));
-            event.path[3].style.transform = " rotateX("+dvec.y+"deg) rotateY("+-dvec.x+"deg)";
-            event.path[3].style['transition-property'] = 'transform';
-            event.path[3].style['transition-duration'] = '0.5s';
+            let vec = this.btnbody.center.clone()
+                .subtract(new Victor(w,h))
+                .normalize(h)
+                .multiply(new Victor(coef*1.5,coef*1.5))
+
+                event.target.parentElement.style.transform = "translate("+vec.x+"px,"+vec.y+"px)";
+            
+
+            let rvec = this.btnbody.center.clone()
+                        .subtract(new Victor(w,h))
+                        .normalize()
+                        .multiply(new Victor(10,10));
+                
+                vec.multiply(new Victor(2,2));
+                
+                this.$emit('rotate3d',rvec,vec,coef*2);
         },
 
         btnOnOut(event){
-            event.target.parentElement.style.transform = "translate(0px,0px)";
-            event.path[3].style.transform = "";
+            event.target.parentElement.style.transform = "";
+            this.$emit('rotate3d');
         },
     }
 }
@@ -95,9 +98,12 @@ export default {
     }
     .btn-wheel:hover{
         fill: #d341c7;
-        stroke: #cc58b9;
-        transition-duration: 0.3s;
-        /* stroke-width: 20px; */
+        /* stroke: #cc58b9; */
+        stroke: #85066f;
+        /* stroke: rgb(5, 240, 228); */
+        /* stroke-width: 3px; */
+        transition-duration: 0.5s;
+        stroke-width: 2px;
         position: absolute;
         /* transform: translate(5px,5px); */
     }
@@ -105,12 +111,13 @@ export default {
     .square{
         fill: #cc15b4;
         stroke: rgba(0, 0, 0, 0.705);
+        stroke-width: 1px;
         background-color: rgb(0, 0, 0);
     }
     .btn-wheel:hover .square{
         stroke:rgb(5, 240, 228);
         /* stroke:rgb(255, 176, 255); */
-        stroke-width: 3; 
+        stroke-width: 3px; 
     }
 
     .wheel-icon { 
@@ -119,6 +126,7 @@ export default {
         font: italic 13px sans-serif;
         fill:rgb(0, 0, 0);
         stroke: rgba(0, 0, 0, 0.3);
+        stroke-width: 1px;
         align-content: center;
     }
 

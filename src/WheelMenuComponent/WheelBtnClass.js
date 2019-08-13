@@ -8,7 +8,7 @@ export default class WheelBtn{
         this.outrad = outrad, // outside radius
         this.inrad = inrad // inside radius
         this.center = new Victor(0,0);
-        
+        this.scale = 1;
         this.centerCalc(num);
     }
 
@@ -19,5 +19,6 @@ export default class WheelBtn{
         this.center.subtract(outradvec);
         this.center.rotate((Math.PI)/num);
         this.center.add(outradvec);
+        console.log(this.id+' : '+this.center);
     }
 }
