@@ -1,8 +1,9 @@
 import Victor from './../../node_modules/victor';
 
 export default class WheelBtn{
-    constructor(id, num, points, icon, outrad, inrad){
+    constructor(id, name, num, points, icon, outrad, inrad){
         this.id = id,  
+        this.name = name,
         this.icon = icon, 
         this.ps = points, //points
         this.outrad = outrad, // outside radius

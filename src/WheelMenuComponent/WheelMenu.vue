@@ -1,6 +1,15 @@
 <template>
 
-    <div class="wheel" :style="'left: '+(x-lrad)+'px; top: '+(y-lrad)+'px;'">
+    <div class="wheel" :style="'left: '+(x-lrad)+'px; top: '+(y-lrad)+'px;'"><!-- x,y are center of circle -->
+        
+        <!-- title -->
+        <div class="info" :style="'line-height: '+lrad*2+'px'"> 
+            <h6 class="info_h6">
+                {{title}}
+            </h6>
+        </div>
+
+        <!-- all circle -->
         <svg xmlns="http://www.w3.org/2000/svg"
             :width='lrad*2' 
             :height="lrad*2" 
@@ -8,12 +17,16 @@
             version="1.1"
             class="wheel-svg"
         >
+            <!-- buttons -->
             <wheelMenuBtnArc class="weelmenubtn" v-for="(p,id) in btnParams" 
                 :btnbody='p' 
                 :key='id'
                 @rotate3d='rotate'
+                @setTitle='setTitle'
             />
+
         </svg>
+
     </div>
 
 </template>
@@ -57,16 +70,17 @@ export default {
             points[3] = svec.clone();
             lvec.subtract(lradvec);
             svec.subtract(lradvec);
-            res[i] = new WheelBtn(i, num, points, this.btns[i].icon, this.lrad, this.srad);
+            res[i] = new WheelBtn(i, (i+1)+'. '+this.btns[i].title, num, points, this.btns[i].icon, this.lrad, this.srad);
         }
 
         return {
             btnParams: res,
-            title:'myCanvas'
+            title:''
         }
     },
     props:{
         rotated:Boolean,
+        name:String,
         srad:Number, 
         lrad:Number,
         btns:Array,
@@ -75,13 +89,17 @@ export default {
     },
     methods:{
 
+        setTitle(text){
+            this.title = text;
+        },
+
         rotate(rvec,mvec,pers){
             if(!rvec || !mvec || !pers){ 
-                this.$el.childNodes[0].style.transform = "";  
+                this.$el.getElementsByTagName('svg')[0].style.transform = "";  
                 return;
             }
             if(!this.rotated) return;
-            this.$el.childNodes[0].style.transform = " rotateX("+rvec.y+"deg) rotateY("+-rvec.x+"deg) translate("+-mvec.x+"px,"+-mvec.y+"px)";
+            this.$el.getElementsByTagName('svg')[0].style.transform = " rotateX("+rvec.y+"deg) rotateY("+-rvec.x+"deg) translate("+-mvec.x+"px,"+-mvec.y+"px)";
             this.$el.style['perspective'] = pers+'cm';
         },
 
@@ -102,7 +120,7 @@ export default {
 
     .wheel{
         position:absolute;
-        border-radius: 50%;
+        border-radius: 90%;
         visibility: hidden;
         background-color: rgba(54, 54, 54, 0);
         /* background-color: #dfa81e; */
@@ -129,11 +147,28 @@ export default {
         /* transform: rotateX(10deg) rotateY(10deg); */
     }
 
-    .info{
-        font: 20px sans-serif; 
-        inline-size: 200px;
-        position:inherit;
+    .info {
+        height: 100%;
+        width: 50%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        visibility: visible;
+        position:absolute;
+        left:25%;
+        top:0%;
+    }
+
+    .info_h6{
+        filter: drop-shadow(0 0 0.20rem rgb(83, 249, 255));
+        width: 100%;
+        font-size: 1em;
+        color:rgb(255, 219, 252);
         text-align: center;
+        vertical-align: middle;
+        /* justify-content: center; */
+        display: inline-block;
+        margin: 0;
     }
 
     /* .bee{

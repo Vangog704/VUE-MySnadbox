@@ -1,7 +1,7 @@
 <template>
     
-    <a :href="'http://localhost:8080?a='+btnbody.id">
-    <g class="btn-wheel"
+    <a :href="'http://localhost:8080?a='+btnbody.id" @contextmenu.prevent="showMenu($event)">
+    <g class="btn-wheel" 
         @mouseover="btnOnhover($event)" 
         @mouseout="btnOnOut($event)"
     >   
@@ -51,6 +51,11 @@ export default {
         btnbody:WheelBtn,
     },
     methods:{
+        
+        showMenu(e){
+            e.stopPropagation();
+
+        },
 
         btnOnhover(event){
 
@@ -74,11 +79,13 @@ export default {
                 vec.multiply(new Victor(2,2));
                 
                 this.$emit('rotate3d',rvec,vec,coef*2);
+                this.$emit('setTitle',this.btnbody.name);
         },
 
         btnOnOut(event){
             event.target.parentElement.style.transform = "";
             this.$emit('rotate3d');
+            this.$emit('setTitle','');
         },
     }
 }
