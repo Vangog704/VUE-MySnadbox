@@ -1,12 +1,12 @@
 <template>
 
-    <div id="wheel">
+    <div class="wheel" :style="'left: '+(x-lrad)+'px; top: '+(y-lrad)+'px;'">
         <svg xmlns="http://www.w3.org/2000/svg"
             :width='lrad*2' 
             :height="lrad*2" 
-            :viewBox="-lrad*0.2+' '+-lrad*0.2+' '+ lrad*2.4 +' '+ lrad*2.4" 
+            :viewBox="-lrad*0.05+' '+-lrad*0.05+' '+ lrad*2.1 +' '+ lrad*2.1" 
             version="1.1"
-            id="wheel-svg"
+            class="wheel-svg"
         >
             <wheelMenuBtnArc class="weelmenubtn" v-for="(p,id) in btnParams" 
                 :btnbody='p' 
@@ -41,7 +41,6 @@ export default {
         
         lvec.rotate(angle/2);
         svec.rotate(angle/2);
-
         for(let i = 0; i < num; i++){
             points = [];
             lvec.add(lradvec);
@@ -58,7 +57,6 @@ export default {
             points[3] = svec.clone();
             lvec.subtract(lradvec);
             svec.subtract(lradvec);
-
             res[i] = new WheelBtn(i, num, points, this.btns[i].icon, this.lrad, this.srad);
         }
 
@@ -71,7 +69,9 @@ export default {
         rotated:Boolean,
         srad:Number, 
         lrad:Number,
-        btns:Array
+        btns:Array,
+        x:Number,
+        y:Number
     },
     methods:{
 
@@ -86,14 +86,13 @@ export default {
         },
 
         updateCanvas: function(){    
-            
+
         } 
     },
     mounted: function (){
         this.updateCanvas();
     }
-}
-
+};
 
 </script>
 
@@ -101,28 +100,27 @@ export default {
 
 <style>
 
-    #wheel{
-        position: absolute;
-        transform: translate(10px, 10px) ;
+    .wheel{
+        position:absolute;
         border-radius: 50%;
-        background-color: rgba(54, 54, 54, 255);
-        backface-visibility: hidden;
+        visibility: hidden;
+        background-color: rgba(54, 54, 54, 0);
         /* background-color: #dfa81e; */
     }
 
-    #wheel:hover{
+    .wheel:hover{
         stroke: black;
         border-color: black;
     }
 
-    #wheel-svg{
+    .wheel-svg{
+        visibility: hidden;
         transition-duration: 1s, 0.4s;
         transition-property: filter, transform;
-        backface-visibility: hidden;
         filter: drop-shadow(3px 3px 6px #3f003f);
         /* filter: drop-shadow(0 0 0.40rem rgb(99, 0, 58)); */
     }
-    #wheel-svg:hover {
+    .wheel-svg:hover {
         transition-duration: 0s, 0.4s;
         transition-property: filter, transform;
         /* filter: drop-shadow(3px 3px 4px #ff41ff); */

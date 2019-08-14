@@ -1,5 +1,5 @@
 <template>
-
+    
     <a :href="'http://localhost:8080?a='+btnbody.id">
     <g class="btn-wheel"
         @mouseover="btnOnhover($event)" 
@@ -51,7 +51,9 @@ export default {
         btnbody:WheelBtn,
     },
     methods:{
+
         btnOnhover(event){
+
             let w,h, coef;
                 w = h = this.btnbody.outrad;
                 coef = h / 50;
@@ -61,7 +63,7 @@ export default {
                 .normalize(h)
                 .multiply(new Victor(coef*1.5,coef*1.5))
 
-                event.target.parentElement.style.transform = "translate("+vec.x+"px,"+vec.y+"px)";
+                // event.target.parentElement.style.transform = "translate("+vec.x+"px,"+vec.y+"px)";
             
 
             let rvec = this.btnbody.center.clone()
@@ -94,9 +96,12 @@ export default {
         transition-duration: 1s, 2s, 0.1s;
         transition-property: transform, stroke, fill;
         width: 100px;
+        transform-origin: center center;
+        visibility: visible;
         /* transform: none; */
     }
     .btn-wheel:hover{
+        transform: scale(1.04);
         fill: #d341c7;
         /* stroke: #cc58b9; */
         stroke: #85066f;

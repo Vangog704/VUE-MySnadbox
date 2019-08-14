@@ -19,6 +19,6 @@ export default class WheelBtn{
         this.center.subtract(outradvec);
         this.center.rotate((Math.PI)/num);
         this.center.add(outradvec);
-        console.log(this.id+' : '+this.center);
+        // console.log(this.id+' : '+this.center);
     }
 }

@@ -1,18 +1,9 @@
 <template>
     
-    <div id="app">
-        <canvas :id="title" width="578" height="200"></canvas>
-        
-        <!-- <wheel-menu :rotated=true :srad=60 :lrad=110></wheel-menu> -->
-        <!-- <wheel-menu :rotated=true :srad=180 :lrad=300 :btns="btnarray" /> -->
-        <wheel-menu :rotated=true :srad=90 :lrad=150 :btns="btnarray" />
-        <!-- <wheel-menu :rotated=true :srad=216 :lrad=360 :btns="btnarray" /> -->
-        <!-- <wheel-menu :rotated=true :srad=60 :lrad=100 :btns="btnarray" /> -->
-        <!-- <wheel-menu :rotated=true :srad=600 :lrad=1000 :btns="btnarray" /> -->
-        <!-- <wheel-menu :rotated=true :srad=270 :lrad=450 :btns="btnarray"/> -->
-        <!-- <wheel-menu :rotated=true :srad=180 :lrad=300 :btns="btnarray" /> -->
-        <!-- <wheel-menu :rotated=true :srad=60 :lrad=110></wheel-menu> -->
-        <!-- <wheel-menu :rotated=true :srad=60 :lrad=110></wheel-menu> -->
+    <div id="app" @contextmenu.prevent="showMenu($event)" @click="visible = false">
+        <!-- <canvas :id="title" width="578" height="200"></canvas> -->
+        <div class="aaa" >AAA</div>
+        <wheel-menu v-if='visible' :rotated='rotated' :srad='srad' :lrad='lrad' :btns="btnarray" :x='x' :y='y' />
     </div>
 
 </template>
@@ -27,6 +18,19 @@ export default {
         console.log('data!!!!');
 
         return {
+            // srad:78, lrad:130, rotated:true,
+            // srad:90, lrad:150, rotated:true,
+            // srad:216, lrad:360, rotated:true,
+            // srad:270, lrad:450, rotated:true,
+            // srad:600, lrad:1000, rotated:true,
+            srad:78, lrad:130, rotated:false,
+            // srad:90, lrad:150, rotated:false,
+            // srad:216, lrad:360, rotated:false,
+            // srad:270, lrad:450, rotated:false,
+            // srad:600, lrad:1000, rotated:false,
+            y:0,
+            x:0,
+            visible: false,
             title:'myCanvas',
             btnarray: [
                 {title:"0", icon:"M28.681 7.159c-0.694-0.947-1.662-2.053-2.724-3.116s-2.169-2.030-3.116-2.724c-1.612-1.182-2.393-1.319-2.841-1.319h-15.5c-1.378 0-2.5 1.121-2.5 2.5v27c0 1.378 1.121 2.5 2.5 2.5h23c1.378 0 2.5-1.122 2.5-2.5v-19.5c0-0.448-0.137-1.23-1.319-2.841v0 0zM24.543 5.457c0.959 0.959 1.712 1.825 2.268 2.543h-4.811v-4.811c0.718 0.556 1.584 1.309 2.543 2.268v0 0zM28 29.5c0 0.271-0.229 0.5-0.5 0.5h-23c-0.271 0-0.5-0.229-0.5-0.5v-27c0-0.271 0.229-0.5 0.5-0.5 0 0 15.499-0 15.5 0v7c0 0.552 0.448 1 1 1h7v19.5z M8 2h4v2h-4v-2z M12 4h4v2h-4v-2z M8 6h4v2h-4v-2z M12 8h4v2h-4v-2z M8 10h4v2h-4v-2z M12 12h4v2h-4v-2z M8 14h4v2h-4v-2z M12 16h4v2h-4v-2z M8 26.5c0 0.825 0.675 1.5 1.5 1.5h5c0.825 0 1.5-0.675 1.5-1.5v-5c0-0.825-0.675-1.5-1.5-1.5h-2.5v-2h-4v8.5zM14 24v2h-4v-2h4z"},
@@ -48,35 +52,60 @@ export default {
         num:Number
     },
     methods:{
-        updateCanvas: function(){    
-            var pos= {x: 80,y: 80};
-            console.log('created');
-            var canvas = document.getElementById(this.title);
-            var ctx = canvas.getContext('2d');
+
+        showMenu(e){
+            console.log(e);
+            this.x = e.offsetX;
+            this.y = e.offsetY;
+            this.visible = true;
+        },
+
+        updateCanvas: function(){  
             
-            ctx.beginPath();
-            ctx.arc(100, 100, 100, Math.PI, 0);
-            ctx.fillStyle = "red";  
-            ctx.fill();
-            ctx.closePath();
+            // let self = this;
+            // // console.log(this);
+            // document.oncontextmenu = function() {return false;}
+            // document.addEventListener( "contextmenu", function(e) {
+            //     console.log(e.clientX);
+            //     self.x = e.clientX;
+            //     self.y = e.clientY;
+            // });
+
+            // document.onmousedown = (e) => {
+            //     console.log(e);
+                
+            //     // self.x = -9999;
+            //     // self.y = -9999;
+            // };
+
+            // var pos= {x: 80,y: 80};
+            // console.log('created');
+            // var canvas = document.getElementById(this.title);
+            // var ctx = canvas.getContext('2d');
             
-            ctx.beginPath();
-            ctx.globalCompositeOperation = 'destination-out';
-            ctx.arc(100, 100, 50, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.closePath();
-            console.log(ctx.isPointInPath(pos.x, pos.y));
+            // ctx.beginPath();
+            // ctx.arc(100, 100, 100, Math.PI, 0);
+            // ctx.fillStyle = "red";  
+            // ctx.fill();
+            // ctx.closePath();
             
-            ctx.beginPath();
-            ctx.arc(100, 100, 20, 0, Math.PI * 2);
-            ctx.globalCompositeOperation = 'source-over';
-            ctx.fillStyle = "green";
-            ctx.fill();
-            ctx.closePath();
+            // ctx.beginPath();
+            // ctx.globalCompositeOperation = 'destination-out';
+            // ctx.arc(100, 100, 50, 0, Math.PI * 2);
+            // ctx.fill();
+            // ctx.closePath();
+            // console.log(ctx.isPointInPath(pos.x, pos.y));
             
-            ctx.fillStyle = 'green';
-            ctx.arc(pos.x, pos.y, 2, 0, Math.PI * 2);
-            ctx.fill();
+            // ctx.beginPath();
+            // ctx.arc(100, 100, 20, 0, Math.PI * 2);
+            // ctx.globalCompositeOperation = 'source-over';
+            // ctx.fillStyle = "green";
+            // ctx.fill();
+            // ctx.closePath();
+            
+            // ctx.fillStyle = 'green';
+            // ctx.arc(pos.x, pos.y, 2, 0, Math.PI * 2);
+            // ctx.fill();
         } 
     },
     mounted: function (){
@@ -88,6 +117,11 @@ export default {
 </script>
 
 <style>
+
+.aaa{
+    width: 100px; 
+    height: 700px; 
+}
 
 #app{
     background-color: rgb(51, 51, 51);
