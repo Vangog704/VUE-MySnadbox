@@ -1,10 +1,9 @@
 <template>
 
     <div class="wheel" :style="'left: '+(x-lrad)+'px; top: '+(y-lrad)+'px;'"><!-- x,y are center of circle -->
-        
         <!-- title -->
         <div class="info" :style="'line-height: '+lrad*2+'px'"> 
-            <h6 class="info_h6">
+            <h6>
                 {{title}}
             </h6>
         </div>
@@ -116,59 +115,65 @@ export default {
 
 <!--=================================================================================================-->
 
-<style>
+<style lang="scss" subtract>
+@import './../colorScheme.scss';
 
-    .wheel{
-        position:absolute;
-        border-radius: 90%;
+    .wheel {
         visibility: hidden;
-        background-color: rgba(54, 54, 54, 0);
-        /* background-color: #dfa81e; */
-    }
+        border-radius: 90%;
+ 
+        position:absolute;
 
-    .wheel:hover{
-        stroke: black;
-        border-color: black;
+
+        &:hover{
+            stroke: black;
+            border-color: black;
+        }
     }
 
     .wheel-svg{
+        filter: drop-shadow(3px 3px 6px $dark-shadow);
         visibility: hidden;
-        transition-duration: 1s, 0.4s;
+        
+        // transition-timing-function: ease-in;
+        transition-duration: 1s, .4s;
         transition-property: filter, transform;
-        filter: drop-shadow(3px 3px 6px #3f003f);
-        /* filter: drop-shadow(0 0 0.40rem rgb(99, 0, 58)); */
-    }
-    .wheel-svg:hover {
-        transition-duration: 0s, 0.4s;
-        transition-property: filter, transform;
-        /* filter: drop-shadow(3px 3px 4px #ff41ff); */
-        /* filter: drop-shadow(0 0 0.30rem rgb(255, 62, 174)); */
-        filter: drop-shadow(0 0 0.30rem rgb(83, 249, 255));
-        /* transform: rotateX(10deg) rotateY(10deg); */
+    
+        &:hover {
+            filter: drop-shadow(0 0 .30rem $light-shadow);
+            
+            transition-timing-function: ease-out;
+            transition-duration: .2s, .3s;
+            transition-property: filter, transform;
+        }
     }
 
     .info {
+        font: 100% Halvetica, sens-serif;
+        visibility: visible;
+        
         height: 100%;
         width: 50%;
+        
         overflow: hidden;
         text-overflow: ellipsis;
 
-        visibility: visible;
-        position:absolute;
         left:25%;
         top:0%;
-    }
+        position:absolute;
 
-    .info_h6{
-        filter: drop-shadow(0 0 0.20rem rgb(83, 249, 255));
-        width: 100%;
-        font-size: 1em;
-        color:rgb(255, 219, 252);
-        text-align: center;
-        vertical-align: middle;
-        /* justify-content: center; */
-        display: inline-block;
-        margin: 0;
+        h6{
+            color: rgb(255, 219, 252);
+            filter: drop-shadow(0 0 0.20rem $light-shadow);
+            
+            width: 100%;
+            margin: 0;
+
+            font-size: 1.1em;
+            text-align: center;
+            vertical-align: middle;
+            display: inline-block;
+        }
     }
 
     /* .bee{

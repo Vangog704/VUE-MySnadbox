@@ -18,15 +18,13 @@
             filter="url(#blurHalf)"
         />
 
-        <circle
-                cx=0 cy=0 r=23  
-                :style="'transform: translate('+(btnbody.center.x)+'px,'+(btnbody.center.y)+'px);'"
-                class="square"
-                filter="url(#blurHalf)" 
+        <circle class="square"
+            cx=0 cy=0 r=23  
+            :style="'transform: translate('+(btnbody.center.x)+'px,'+(btnbody.center.y)+'px);'"
+            filter="url(#blurHalf)" 
         />
         <!--TODO icon scale-->
-        <path
-            class="wheel-icon"
+        <path class="wheel-icon"
             :style="'transform: translate('+(btnbody.center.x-16)+'px,'+(btnbody.center.y-16)+'px) scale(1,1);'"
             :d="btnbody.icon"        
         />
@@ -54,7 +52,6 @@ export default {
         
         showMenu(e){
             e.stopPropagation();
-
         },
 
         btnOnhover(event){
@@ -72,9 +69,9 @@ export default {
             
 
             let rvec = this.btnbody.center.clone()
-                        .subtract(new Victor(w,h))
-                        .normalize()
-                        .multiply(new Victor(10,10));
+                                          .subtract(new Victor(w,h))
+                                          .normalize()
+                                          .multiply(new Victor(10,10));
                 
                 vec.multiply(new Victor(2,2));
                 
@@ -94,63 +91,67 @@ export default {
 
 <!--=================================================================================================-->
 
-<style>
+<style lang="scss" subtract>
+@import './../colorScheme.scss';
 
     .btn-wheel{
-        fill: #a321af;
-        stroke: #a41eb1;
-        position: absolute;
-        transition-duration: 1s, 2s, 0.1s;
-        transition-property: transform, stroke, fill;
-        width: 100px;
-        transform-origin: center center;
+        fill: $main-color;
+        stroke: $main-color;
         visibility: visible;
-        /* transform: none; */
-    }
-    .btn-wheel:hover{
-        transform: scale(1.04);
-        fill: #d341c7;
-        /* stroke: #cc58b9; */
-        stroke: #85066f;
-        /* stroke: rgb(5, 240, 228); */
-        /* stroke-width: 3px; */
-        transition-duration: 0.5s;
-        stroke-width: 2px;
+        
+        transition-duration: 1s, 1.2s, 0.4s;
+        transition-property: transform, stroke, fill;
+        
+        width: 100px;
+        
+        transform-origin: center center;
+        transform: scale(1.01);
         position: absolute;
-        /* transform: translate(5px,5px); */
-    }
 
-    .square{
-        fill: #cc15b4;
-        stroke: rgba(0, 0, 0, 0.705);
-        stroke-width: 1px;
-        background-color: rgb(0, 0, 0);
-    }
-    .btn-wheel:hover .square{
-        stroke:rgb(5, 240, 228);
-        /* stroke:rgb(255, 176, 255); */
-        stroke-width: 3px; 
+        &:hover{
+            fill: lighten($main-color, 10%);
+            stroke: darken($main-color, 15%);
+            stroke-width: 2px;
+            
+            transition-duration: 0.5s;
+            
+            transform: scale(1.04);
+            /* transform: translate(5px,5px); */
+            position: absolute;
+        
+            .square{
+                fill: $icon-color;
+                stroke: $light-shadow;
+                stroke-width: 3px; 
+                // stroke:gold;
+            }
+            
+            .wheel-icon{
+                fill: $light-shadow;
+                stroke: rgba($light-shadow, 50%);
+                
+                transition-duration: 0s, 0s;
+                transition-property: stroke, fill;
+            }
+        }
+        
+        .square{
+            fill: $extra-color;
+            stroke: $icon-color;
+            stroke-width: 1px;
+            background-color: black;
+        }
     }
 
     .wheel-icon { 
-        transition-duration: 1s;
-        transition-property: fill;
-        font: italic 13px sans-serif;
-        fill:rgb(0, 0, 0);
-        stroke: rgba(0, 0, 0, 0.3);
+        fill:$icon-color;
+        stroke: $icon-color;
         stroke-width: 1px;
-        align-content: center;
-    }
 
-    .btn-wheel:hover .wheel-icon{
-        transition-duration: 0s, 0s;
+        transition-duration: .2s, .7s;
         transition-property: stroke, fill;
-
-        fill:rgb(79, 255, 246);
-        stroke:rgba(117, 239, 255, 0.8);
-        /* fill:rgb(255, 216, 253);
-        stroke:rgba(255, 140, 230, 0.8); */
-        /* stroke: rgb(0, 165, 165); */
+        
+        align-content: center;
     }
 
 </style>
