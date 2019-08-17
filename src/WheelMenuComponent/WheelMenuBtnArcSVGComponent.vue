@@ -26,7 +26,7 @@
         <!--TODO icon scale-->
         <path class="wheel-icon"
             :style="'transform: translate('+(btnbody.center.x-16)+'px,'+(btnbody.center.y-16)+'px) scale(1,1);'"
-            :d="btnbody.icon"        
+            :d="btnbody.icon"    
         />
     </g></a>
 
@@ -113,7 +113,7 @@ export default {
             stroke: darken($main-color, 15%);
             stroke-width: 2px;
             
-            transition-duration: 0.5s;
+            transition-duration: .3s; 
             
             transform: scale(1.04);
             /* transform: translate(5px,5px); */

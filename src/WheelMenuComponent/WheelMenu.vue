@@ -3,7 +3,7 @@
     <div class="wheel" :style="'left: '+(x-lrad)+'px; top: '+(y-lrad)+'px;'"><!-- x,y are center of circle -->
         <!-- title -->
         <div class="info" :style="'line-height: '+lrad*2+'px'"> 
-            <h6>
+            <h6 :style="' font-size: '+font+';'">
                 {{title}}
             </h6>
         </div>
@@ -23,7 +23,6 @@
                 @rotate3d='rotate'
                 @setTitle='setTitle'
             />
-
         </svg>
 
     </div>
@@ -38,7 +37,7 @@ import WheelMenuBtn from './WheelMenuBtnArcSVGComponent.vue'
 import WheelBtn from './WheelBtnClass.js';
 
 export default {
-    name: 'wheel',
+    name: 'wheel-menu',
     components:{
         'wheelMenuBtnArc':WheelMenuBtn,
     },
@@ -74,7 +73,8 @@ export default {
 
         return {
             btnParams: res,
-            title:''
+            title:'',
+            font:(this.srad/85)+'em',
         }
     },
     props:{
@@ -99,6 +99,7 @@ export default {
             }
             if(!this.rotated) return;
             this.$el.getElementsByTagName('svg')[0].style.transform = " rotateX("+rvec.y+"deg) rotateY("+-rvec.x+"deg) translate("+-mvec.x+"px,"+-mvec.y+"px)";
+            this.$el.getElementsByClassName('info')[0].style.transform = " translate("+-mvec.x+"px,"+-mvec.y+"px)";
             this.$el.style['perspective'] = pers+'cm';
         },
 
@@ -116,6 +117,7 @@ export default {
 <!--=================================================================================================-->
 
 <style lang="scss" subtract>
+
 @import './../colorScheme.scss';
 
     .wheel {
@@ -146,30 +148,35 @@ export default {
             transition-duration: .2s, .3s;
             transition-property: filter, transform;
         }
+
     }
 
     .info {
-        font: 100% Halvetica, sens-serif;
+        font: 100%;
         visibility: visible;
         
+        transition-duration: .5s;
+        transition-property: transform;
+
         height: 100%;
-        width: 50%;
+        width: 46%;
         
         overflow: hidden;
         text-overflow: ellipsis;
 
-        left:25%;
+        left:28%;
         top:0%;
         position:absolute;
 
         h6{
-            color: rgb(255, 219, 252);
+            color: rgb(255, 255, 255);
             filter: drop-shadow(0 0 0.20rem $light-shadow);
             
             width: 100%;
             margin: 0;
-
-            font-size: 1.1em;
+            
+            font: serif;
+            // font-size: .8em;
             text-align: center;
             vertical-align: middle;
             display: inline-block;

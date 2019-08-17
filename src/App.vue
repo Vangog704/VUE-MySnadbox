@@ -47,7 +47,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" subtract>
 
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
