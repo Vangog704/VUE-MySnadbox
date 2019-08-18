@@ -1,30 +1,26 @@
 <template>
 
-    <div class="wheel" :style="'left: '+(x-lrad)+'px; top: '+(y-lrad)+'px;'"><!-- x,y are center of circle -->
-        <!-- title -->
-        <div class="info" :style="'line-height: '+lrad*2+'px'"> 
-            <h6 :style="' font-size: '+font+';'">
-                {{title}}
-            </h6>
+    <div class="wheel" :style="'left: '+(position.x-outrad)+'px; top: '+(position.y-outrad)+'px;'"><!-- x,y are center of circle -->
+
+        <div class="rotable">
+            <!-- title -->
+            <div class="info" :style="'line-height: '+size+'px'"> 
+                <h6 :style="' font-size: '+font+';'">
+                    {{title}}
+                </h6>
+            </div>
+            <!-- all circle -->
+            <div class="wheel-svg-wraper" :style="' width: '+size+'px; height: '+size+'px; '">
+                <!-- buttons -->
+                <wheelMenuBtnArc class="weelmenubtn" 
+                    v-for="(p,id) in btnParams" 
+                    :key='id'
+                    :btnbody='p' 
+                    @rotate3d='rotate'
+                    @setTitle='setTitle'
+                />
+            </div>
         </div>
-
-        <!-- all circle -->
-        <svg xmlns="http://www.w3.org/2000/svg"
-            :width='lrad*2' 
-            :height="lrad*2" 
-            :viewBox="-lrad*0.05+' '+-lrad*0.05+' '+ lrad*2.1 +' '+ lrad*2.1" 
-            version="1.1"
-            class="wheel-svg"
-        >
-            <!-- buttons -->
-            <wheelMenuBtnArc class="weelmenubtn" v-for="(p,id) in btnParams" 
-                :btnbody='p' 
-                :key='id'
-                @rotate3d='rotate'
-                @setTitle='setTitle'
-            />
-        </svg>
-
     </div>
 
 </template>
@@ -41,50 +37,54 @@ export default {
     components:{
         'wheelMenuBtnArc':WheelMenuBtn,
     },
-    data(){ 
+    data(){
         let res = [];
         const num = this.btns.length;
         let points = [];
-        let lvec = new Victor(0, this.lrad);
-        let svec = new Victor(0, this.srad);
-        let lradvec = new Victor(this.lrad,this.lrad);
+        let lvec = new Victor(0, this.outrad*0.95);
+        let svec = new Victor(0, this.inrad*0.95);
+        let outradvec = new Victor(this.outrad,this.outrad);
         const angle = (Math.PI*2)/num
         
         lvec.rotate(angle/2);
         svec.rotate(angle/2);
         for(let i = 0; i < num; i++){
             points = [];
-            lvec.add(lradvec);
-            svec.add(lradvec);
+            lvec.add(outradvec);
+            svec.add(outradvec);
             points[0] = lvec.clone();
             points[1] = svec.clone();
-            lvec.subtract(lradvec); 
-            svec.subtract(lradvec);
+            lvec.subtract(outradvec); 
+            svec.subtract(outradvec);
             lvec.rotate(angle); 
             svec.rotate(angle);
-            lvec.add(lradvec);
-            svec.add(lradvec);
+            lvec.add(outradvec);
+            svec.add(outradvec);
             points[2] = lvec.clone();
             points[3] = svec.clone();
-            lvec.subtract(lradvec);
-            svec.subtract(lradvec);
-            res[i] = new WheelBtn(i, (i+1)+'. '+this.btns[i].title, num, points, this.btns[i].icon, this.lrad, this.srad);
+            lvec.subtract(outradvec);
+            svec.subtract(outradvec);
+
+            res[i] = new WheelBtn(i, this.btns[i].title, num, points, this.btns[i].icon, this.outrad, this.inrad);
         }
 
         return {
             btnParams: res,
             title:'',
-            font:(this.srad/85)+'em',
+            font:(this.inrad/85)+'em',
+            size: (this.outrad*2)
         }
+    },
+    computed:{
+
     },
     props:{
         rotated:Boolean,
+        outrad:Number,
+        inrad:Number, 
         name:String,
-        srad:Number, 
-        lrad:Number,
         btns:Array,
-        x:Number,
-        y:Number
+        position:Object
     },
     methods:{
 
@@ -94,12 +94,13 @@ export default {
 
         rotate(rvec,mvec,pers){
             if(!rvec || !mvec || !pers){ 
-                this.$el.getElementsByTagName('svg')[0].style.transform = "";  
+                this.$el.getElementsByClassName('rotable')[0].style.transform = "";  
                 return;
             }
             if(!this.rotated) return;
-            this.$el.getElementsByTagName('svg')[0].style.transform = " rotateX("+rvec.y+"deg) rotateY("+-rvec.x+"deg) translate("+-mvec.x+"px,"+-mvec.y+"px)";
-            this.$el.getElementsByClassName('info')[0].style.transform = " translate("+-mvec.x+"px,"+-mvec.y+"px)";
+            this.$el.getElementsByClassName('rotable')[0].style.transform = " rotateX("+rvec.y+"deg) rotateY("+-rvec.x+"deg) translate("+-mvec.x+"px,"+-mvec.y+"px)";
+            // this.$el.getElementsByClassName('rotable')[0].style['transform-origin'] = " "+this.outrad+"px, "+this.outrad+"px ";
+            // this.$el.getElementsByClassName('info')[0].style.transform = " translate("+-mvec.x+"px,"+-mvec.y+"px)";
             this.$el.style['perspective'] = pers+'cm';
         },
 
@@ -120,12 +121,15 @@ export default {
 
 @import './../colorScheme.scss';
 
+
+
     .wheel {
         visibility: hidden;
         border-radius: 90%;
- 
-        position:absolute;
 
+        position:absolute;
+        transform-origin: 150px, 150px;
+        transform-origin: center;        
 
         &:hover{
             stroke: black;
@@ -133,29 +137,31 @@ export default {
         }
     }
 
-    .wheel-svg{
-        filter: drop-shadow(3px 3px 6px $dark-shadow);
-        visibility: hidden;
-        
-        // transition-timing-function: ease-in;
-        transition-duration: 1s, .4s;
-        transition-property: filter, transform;
-    
-        &:hover {
-            filter: drop-shadow(0 0 .30rem $light-shadow);
-            
-            transition-timing-function: ease-out;
-            transition-duration: .2s, .3s;
-            transition-property: filter, transform;
-        }
+    .rotable{
+        transition-duration: .4s;
+        transition-property: transform;
 
+        &:hover{
+            transition-duration: .3s;
+            transition-property: transform;
+        }
+    }
+
+    .wheel-svg-wraper{
+        position: relative;
+        visibility: hidden;
+        &:hover{
+            transition-duration: 0s;
+            transition-property: filter;
+            filter: drop-shadow(0 0 .30rem $light-shadow);
+        }
     }
 
     .info {
         font: 100%;
         visibility: visible;
         
-        transition-duration: .5s;
+        transition-duration: 0.3s;
         transition-property: transform;
 
         height: 100%;
@@ -176,12 +182,11 @@ export default {
             margin: 0;
             
             font: serif;
-            // font-size: .8em;
             text-align: center;
             vertical-align: middle;
             display: inline-block;
         }
-    }
+    } 
 
     /* .bee{
         background-color: #ce9200;

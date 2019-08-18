@@ -1,19 +1,17 @@
 <template>
     
-    <div id="app" @contextmenu.prevent="showMenu($event)" @click="visible = false">
+    <div id="app" @contextmenu.prevent="showMenu($event)" @click="pos = undefined">
         <!-- <canvas :id="title" width="578" height="200"></canvas> -->
         <div class="aaa" >AAA</div>
         <transition name='fade'>
-            <wheel-menu v-if='visible' 
+            <wheel-menu v-if='pos' 
                 :rotated='rotated' 
-                :srad='srad' 
-                :lrad='lrad' 
+                :inrad='inrad' 
+                :outrad='outrad' 
                 :btns="btnarray" 
-                :x='x' 
-                :y='y' 
+                :position="pos"
             />
         </transition>
-        
     </div>
 
 </template>
@@ -21,37 +19,37 @@
 <script>
 
 import Victor from './../node_modules/victor';
+import Icons from './assets/icons.json';
 
 export default {
     name: 'app',
     data: function(){
 
         return {
-            // srad:78, lrad:130, rotated:true,
-            // srad:60, lrad:120, rotated:true,
-            srad:80, lrad:150, rotated:true,
-            // srad:216, lrad:360, rotated:true,
-            // srad:270, lrad:450, rotated:true,
-            // srad:600, lrad:1000, rotated:true,
-            // srad:78, lrad:130, rotated:false,
-            // srad:90, lrad:150, rotated:false,
-            // srad:216, lrad:360, rotated:false,
-            // srad:270, lrad:450, rotated:false,
-            // srad:600, lrad:1000, rotated:false,
-            y:500,
-            x:400,
-            visible: true,
+            // inrad:78, outrad:130, rotated:true,
+            // inrad:60, outrad:120, rotated:true,
+            // inrad:80, outrad:150, rotated:true,
+            // inrad:60, outrad:150, rotated:true,
+            // inrad:216, outrad:360, rotated:true,
+            // inrad:270, outrad:450, rotated:true,
+            inrad:200, outrad:450, rotated:true,
+            // inrad:600, outrad:1000, rotated:true,
+            // inrad:78, outrad:130, rotated:false,
+            // inrad:80, outrad:150, rotated:false,
+            // inrad:216, outrad:360, rotated:false,
+            // inrad:270, outrad:450, rotated:false,
+            // inrad:600, outrad:1000, rotated:false,
+            pos: undefined,
             title:'myCanvas',
             btnarray: [
-                {title:"ZIP", icon:"M28.681 7.159c-0.694-0.947-1.662-2.053-2.724-3.116s-2.169-2.030-3.116-2.724c-1.612-1.182-2.393-1.319-2.841-1.319h-15.5c-1.378 0-2.5 1.121-2.5 2.5v27c0 1.378 1.121 2.5 2.5 2.5h23c1.378 0 2.5-1.122 2.5-2.5v-19.5c0-0.448-0.137-1.23-1.319-2.841v0 0zM24.543 5.457c0.959 0.959 1.712 1.825 2.268 2.543h-4.811v-4.811c0.718 0.556 1.584 1.309 2.543 2.268v0 0zM28 29.5c0 0.271-0.229 0.5-0.5 0.5h-23c-0.271 0-0.5-0.229-0.5-0.5v-27c0-0.271 0.229-0.5 0.5-0.5 0 0 15.499-0 15.5 0v7c0 0.552 0.448 1 1 1h7v19.5z M8 2h4v2h-4v-2z M12 4h4v2h-4v-2z M8 6h4v2h-4v-2z M12 8h4v2h-4v-2z M8 10h4v2h-4v-2z M12 12h4v2h-4v-2z M8 14h4v2h-4v-2z M12 16h4v2h-4v-2z M8 26.5c0 0.825 0.675 1.5 1.5 1.5h5c0.825 0 1.5-0.675 1.5-1.5v-5c0-0.825-0.675-1.5-1.5-1.5h-2.5v-2h-4v8.5zM14 24v2h-4v-2h4z"},
-                {title:"DATA", icon:"M16 0c-8.837 0-16 2.239-16 5v4c0 2.761 7.163 5 16 5s16-2.239 16-5v-4c0-2.761-7.163-5-16-5z M16 17c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z M16 26c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"},
-                {title:"Pen", icon:"M12 20l4-2 14-14-2-2-14 14-2 4zM9.041 27.097c-0.989-2.085-2.052-3.149-4.137-4.137l3.097-8.525 4-2.435 12-12h-6l-12 12-6 20 20-6 12-12v-6l-12 12-2.435 4z"},
-                {title:"QR", icon:"M10 2h-8v8h8v-8zM12 0v0 12h-12v-12h12zM4 4h4v4h-4zM30 2h-8v8h8v-8zM32 0v0 12h-12v-12h12zM24 4h4v4h-4zM10 22h-8v8h8v-8zM12 20v0 12h-12v-12h12zM4 24h4v4h-4zM14 0h2v2h-2zM16 2h2v2h-2zM14 4h2v2h-2zM16 6h2v2h-2zM14 8h2v2h-2zM16 10h2v2h-2zM14 12h2v2h-2zM14 16h2v2h-2zM16 18h2v2h-2zM14 20h2v2h-2zM16 22h2v2h-2zM14 24h2v2h-2zM16 26h2v2h-2zM14 28h2v2h-2zM16 30h2v2h-2zM30 16h2v2h-2zM2 16h2v2h-2zM4 14h2v2h-2zM0 14h2v2h-2zM8 14h2v2h-2zM10 16h2v2h-2zM12 14h2v2h-2zM18 16h2v2h-2zM20 14h2v2h-2zM22 16h2v2h-2zM24 14h2v2h-2zM26 16h2v2h-2zM28 14h2v2h-2zM30 20h2v2h-2zM18 20h2v2h-2zM20 18h2v2h-2zM22 20h2v2h-2zM26 20h2v2h-2zM28 18h2v2h-2zM30 24h2v2h-2zM18 24h2v2h-2zM20 22h2v2h-2zM24 22h2v2h-2zM26 24h2v2h-2zM28 22h2v2h-2zM30 28h2v2h-2zM20 26h2v2h-2zM22 28h2v2h-2zM24 26h2v2h-2zM26 28h2v2h-2zM20 30h2v2h-2zM24 30h2v2h-2zM28 30h2v2h-2z"},
-                {title:"Bones", icon:"M27 6h-16c-2.75 0-5 2.25-5 5v16c0 2.75 2.25 5 5 5h16c2.75 0 5-2.25 5-5v-16c0-2.75-2.25-5-5-5zM13 28c-1.657 0-3-1.343-3-3s1.343-3 3-3 3 1.343 3 3-1.343 3-3 3zM13 16c-1.657 0-3-1.343-3-3s1.343-3 3-3 3 1.343 3 3-1.343 3-3 3zM19 22c-1.657 0-3-1.343-3-3s1.343-3 3-3 3 1.343 3 3-1.343 3-3 3zM25 28c-1.657 0-3-1.343-3-3s1.343-3 3-3 3 1.343 3 3-1.343 3-3 3zM25 16c-1.657 0-3-1.343-3-3s1.343-3 3-3 3 1.343 3 3-1.343 3-3 3zM25.899 4c-0.467-2.275-2.491-4-4.899-4h-16c-2.75 0-5 2.25-5 5v16c0 2.408 1.725 4.432 4 4.899v-19.899c0-1.1 0.9-2 2-2h19.899z"},
-                {title:"Head Phones and ather words for fun", icon:"M9 18h-2v14h2c0.55 0 1-0.45 1-1v-12c0-0.55-0.45-1-1-1z M23 18c-0.55 0-1 0.45-1 1v12c0 0.55 0.45 1 1 1h2v-14h-2z M32 16c0-8.837-7.163-16-16-16s-16 7.163-16 16c0 1.919 0.338 3.759 0.958 5.464-0.609 1.038-0.958 2.246-0.958 3.536 0 3.526 2.608 6.443 6 6.929v-13.857c-0.997 0.143-1.927 0.495-2.742 1.012-0.168-0.835-0.258-1.699-0.258-2.584 0-7.18 5.82-13 13-13s13 5.82 13 13c0 0.885-0.088 1.749-0.257 2.584-0.816-0.517-1.745-0.87-2.743-1.013v13.858c3.392-0.485 6-3.402 6-6.929 0-1.29-0.349-2.498-0.958-3.536 0.62-1.705 0.958-3.545 0.958-5.465z"},
-                {title:"Sword",icon:"M30.828 1.172c-1.562-1.562-4.095-1.562-5.657 0l-5.379 5.379-3.793-3.793-4.243 4.243 3.326 3.326-14.754 14.754c-0.252 0.252-0.358 0.592-0.322 0.921h-0.008v5c0 0.552 0.448 1 1 1h5c0 0 0.083 0 0.125 0 0.288 0 0.576-0.11 0.795-0.329l14.754-14.754 3.326 3.326 4.243-4.243-3.793-3.793 5.379-5.379c1.562-1.562 1.562-4.095 0-5.657zM5.409 30h-3.409v-3.409l14.674-14.674 3.409 3.409-14.674 14.674z"},
-                {title:"Fire", icon:"M10.031 32c-2.133-4.438-0.997-6.981 0.642-9.376 1.795-2.624 2.258-5.221 2.258-5.221s1.411 1.834 0.847 4.703c2.493-2.775 2.963-7.196 2.587-8.889 5.635 3.938 8.043 12.464 4.798 18.783 17.262-9.767 4.294-24.38 2.036-26.027 0.753 1.646 0.895 4.433-0.625 5.785-2.573-9.759-8.937-11.759-8.937-11.759 0.753 5.033-2.728 10.536-6.084 14.648-0.118-2.007-0.243-3.392-1.298-5.312-0.237 3.646-3.023 6.617-3.777 10.27-1.022 4.946 0.765 8.568 7.555 12.394z"},
-                {title:"head Phones with blah blah bla and so on an so on", icon:"M9 18h-2v14h2c0.55 0 1-0.45 1-1v-12c0-0.55-0.45-1-1-1z M23 18c-0.55 0-1 0.45-1 1v12c0 0.55 0.45 1 1 1h2v-14h-2z M32 16c0-8.837-7.163-16-16-16s-16 7.163-16 16c0 1.919 0.338 3.759 0.958 5.464-0.609 1.038-0.958 2.246-0.958 3.536 0 3.526 2.608 6.443 6 6.929v-13.857c-0.997 0.143-1.927 0.495-2.742 1.012-0.168-0.835-0.258-1.699-0.258-2.584 0-7.18 5.82-13 13-13s13 5.82 13 13c0 0.885-0.088 1.749-0.257 2.584-0.816-0.517-1.745-0.87-2.743-1.013v13.858c3.392-0.485 6-3.402 6-6.929 0-1.29-0.349-2.498-0.958-3.536 0.62-1.705 0.958-3.545 0.958-5.465z"},
+                {title:"ZIP", icon: Icons.zip},
+                {title:"DATA", icon: Icons.data},
+                {title:"Pen", icon: Icons.pen},
+                {title:"QR", icon: Icons.qr},
+                {title:"Bones", icon: Icons.bones},
+                {title:"Head Phones", icon: Icons.headphone},
+                {title:"Sword",icon: Icons.sword},
+                {title:"Fire", icon: Icons.fire},
             ]
         }
 
@@ -62,10 +60,8 @@ export default {
     methods:{
 
         showMenu(e){
-            console.log(e);
-            this.x = e.pageX;
-            this.y = e.pageY;
-            this.visible = true;
+            // console.log(e);
+            this.pos = {x: e.pageX, y: e.pageY};
             return false;
         },
 
@@ -119,6 +115,7 @@ export default {
         } 
     },
     mounted: function (){
+
         this.updateCanvas();
     }
 }
