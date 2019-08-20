@@ -2,13 +2,28 @@
     
     <div id="app" @contextmenu.prevent="showMenu($event)" @click="pos = undefined">
         <!-- <canvas :id="title" width="578" height="200"></canvas> -->
-        <div class="aaa" >AAA</div>
+        <div class="aaa">AAA</div>
+        <!-- <transition name='fade'>
+            <wheel-menu v-if='pos' 
+                :inrad='195' 
+                :outrad='300' 
+                :btns="btnarray1" 
+                :position="pos"
+            />
+        </transition>
         <transition name='fade'>
             <wheel-menu v-if='pos' 
-                :rotated='rotated' 
+                :inrad='110' 
+                :outrad='180' 
+                :btns="btnarray2" 
+                :position="pos"
+            />
+        </transition> -->
+        <transition name='fade'>
+            <wheel-menu v-if='pos' 
                 :inrad='inrad' 
                 :outrad='outrad' 
-                :btns="btnarray" 
+                :btns="btnarray1" 
                 :position="pos"
             />
         </transition>
@@ -29,10 +44,10 @@ export default {
             // inrad:78, outrad:130, rotated:true,
             // inrad:60, outrad:120, rotated:true,
             // inrad:80, outrad:150, rotated:true,
-            // inrad:60, outrad:150, rotated:true,
+            // inrad:70, outrad:150, rotated:true,
             // inrad:216, outrad:360, rotated:true,
-            // inrad:270, outrad:450, rotated:true,
-            inrad:200, outrad:450, rotated:true,
+            inrad:270, outrad:450, rotated:true,
+            // inrad:200, outrad:450, rotated:true,
             // inrad:600, outrad:1000, rotated:true,
             // inrad:78, outrad:130, rotated:false,
             // inrad:80, outrad:150, rotated:false,
@@ -41,7 +56,7 @@ export default {
             // inrad:600, outrad:1000, rotated:false,
             pos: undefined,
             title:'myCanvas',
-            btnarray: [
+            btnarray1: [
                 {title:"ZIP", icon: Icons.zip},
                 {title:"DATA", icon: Icons.data},
                 {title:"Pen", icon: Icons.pen},
@@ -50,6 +65,14 @@ export default {
                 {title:"Head Phones", icon: Icons.headphone},
                 {title:"Sword",icon: Icons.sword},
                 {title:"Fire", icon: Icons.fire},
+                {title:"Sword",icon: Icons.sword},
+                {title:"Fire", icon: Icons.fire},
+            ],
+            btnarray2: [
+                {title:"ZIP", icon: Icons.zip},
+                {title:"DATA", icon: Icons.data},
+                {title:"Pen", icon: Icons.pen},
+                {title:"QR", icon: Icons.qr},
             ]
         }
 
@@ -142,7 +165,7 @@ export default {
 }
 
 #app{
-    background-color: rgb(50, 50, 50);
+    background-color: rgb(53, 53, 53);
     // background-color: rgb(255, 255, 255);
 
 }

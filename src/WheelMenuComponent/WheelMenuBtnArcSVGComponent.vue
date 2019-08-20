@@ -1,6 +1,7 @@
 <template>
 
-    <a :href="'/a?id='+btnbody.id"
+    <!-- :href="'/a?id='+btnbody.id" -->
+    <a 
         @contextmenu.prevent="showMenu($event)"
         @mouseover="btnOnhover($event)" 
         @mouseout="btnOnOut($event)"
@@ -15,12 +16,8 @@
                 <filter id="blurHalf">
                     <feGaussianBlur stdDeviation="0.5"/>
                 </filter>
-                <path :d="
-                    ' M '+btnbody.ps[0].x+' '+btnbody.ps[0].y+
-                    ' A '+btnbody.outrad+' '+btnbody.outrad+' 0 0 1 '+btnbody.ps[2].x+' '+btnbody.ps[2].y+ 
-                    ' L '+btnbody.ps[3].x+' '+btnbody.ps[3].y+
-                    ' A '+btnbody.inrad+' '+btnbody.inrad+' 1 0 0 '+btnbody.ps[1].x+' '+btnbody.ps[1].y+
-                    ' z '"
+
+                <path :d="btnbody.path_d"
                     filter="url(#blurHalf)"
                 />
 
@@ -30,11 +27,18 @@
                     :style="'transform: translate('+(btnbody.center.x)+'px,'+(btnbody.center.y)+'px);'"
                     filter="url(#blurHalf)"
                 />
-                <!--TODO icon scale-->
+
                 <path class="wheel-icon"
                     :style="' transform: translate('+(btnbody.center.x-iconsize/2)+'px,'+(btnbody.center.y-iconsize/2)+'px) scale('+iconWidth+','+iconHeight+') '"
                     :d="btnbody.icon.d"
                 />
+                <!-- debuging stuff -->
+                <!-- <circle
+                    :cx="btnbody.vecp1.x" 
+                    :cy="btnbody.vecp1.y"
+                    r="10"  
+                    filter="url(#blurHalf)"
+                /> -->
             </g>
         </svg>
     </a>
@@ -140,7 +144,7 @@ export default {
 </script>
 
 <!--=================================================================================================-->
-
+//TODO do all css fitures switchable
 <style lang="scss" subtract>
 @import './../colorScheme.scss';
 
@@ -149,16 +153,16 @@ export default {
         z-index: 1;
         &:hover {
             z-index: 2;
-            filter: drop-shadow(0 0 .40rem $light-shadow) drop-shadow(0 0 .40rem $selected-shodow);
+            filter: drop-shadow(0 0 .30rem $selected-shodow);
         }
     }
 
     .btn-wheel{
-        fill: $main-color;
+        fill: rgba($main-color, 1);
         stroke: $main-color;
         visibility: visible;
         
-        transition-duration: 1s, 1.2s, 0.4s;
+        transition-duration: .7s, .2s, .5s;
         transition-property: transform, stroke, fill;
         
         width: 100px;
@@ -168,11 +172,11 @@ export default {
         position: absolute;
 
         &:hover {
-            fill: lighten($main-color, 10%);
-            stroke: darken($main-color, 15%);
+            fill: rgba(lighten( $main-color, 10%), .2);
+            stroke: $light-shadow;
             stroke-width: 2px;
             
-            transform: scale(1.04);
+            transform: scale(1.06);
             position: absolute;
             
             .icon-circle{

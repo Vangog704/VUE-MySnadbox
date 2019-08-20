@@ -41,11 +41,11 @@ export default {
         let res = [];
         const num = this.btns.length;
         let points = [];
-        let lvec = new Victor(0, this.outrad*0.95);
-        let svec = new Victor(0, this.inrad*0.95);
-        let outradvec = new Victor(this.outrad,this.outrad);
+        // TODO add h & w 
+        let lvec = new Victor(0, this.outrad*0.94);
+        let svec = new Victor(0, this.inrad*0.94);
+        let outradvec = new Victor(this.outrad, this.outrad);
         const angle = (Math.PI*2)/num
-        
         lvec.rotate(angle/2);
         svec.rotate(angle/2);
         for(let i = 0; i < num; i++){
@@ -53,15 +53,15 @@ export default {
             lvec.add(outradvec);
             svec.add(outradvec);
             points[0] = lvec.clone();
-            points[1] = svec.clone();
+            points[3] = svec.clone();
             lvec.subtract(outradvec); 
             svec.subtract(outradvec);
             lvec.rotate(angle); 
             svec.rotate(angle);
             lvec.add(outradvec);
             svec.add(outradvec);
-            points[2] = lvec.clone();
-            points[3] = svec.clone();
+            points[1] = lvec.clone();
+            points[2] = svec.clone();
             lvec.subtract(outradvec);
             svec.subtract(outradvec);
 
@@ -72,14 +72,14 @@ export default {
             btnParams: res,
             title:'',
             font:(this.inrad/85)+'em',
-            size: (this.outrad*2)
+            size: (this.outrad*2),
         }
     },
     computed:{
 
     },
     props:{
-        rotated:Boolean,
+        rotated:{type: Boolean, default: true},
         outrad:Number,
         inrad:Number, 
         name:String,
@@ -109,6 +109,7 @@ export default {
         } 
     },
     mounted: function (){
+
         this.updateCanvas();
     }
 };
@@ -121,17 +122,14 @@ export default {
 
 @import './../colorScheme.scss';
 
-
-
     .wheel {
         visibility: hidden;
         border-radius: 90%;
 
         position:absolute;
-        transform-origin: 150px, 150px;
-        transform-origin: center;        
+        transform-origin: center;
 
-        &:hover{
+        &:hover{ 
             stroke: black;
             border-color: black;
         }
@@ -140,9 +138,8 @@ export default {
     .rotable{
         transition-duration: .4s;
         transition-property: transform;
-
         &:hover{
-            transition-duration: .3s;
+            transition-duration: .4s;
             transition-property: transform;
         }
     }
@@ -150,6 +147,11 @@ export default {
     .wheel-svg-wraper{
         position: relative;
         visibility: hidden;
+
+        transition-duration: 0s;
+        transition-property: filter;
+        // filter: drop-shadow(0 0 .10rem $light-shadow);
+
         &:hover{
             transition-duration: 0s;
             transition-property: filter;
@@ -158,11 +160,9 @@ export default {
     }
 
     .info {
+        
         font: 100%;
         visibility: visible;
-        
-        transition-duration: 0.3s;
-        transition-property: transform;
 
         height: 100%;
         width: 46%;
