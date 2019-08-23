@@ -35,18 +35,20 @@
 
 import Victor from './../node_modules/victor';
 import Icons from './assets/icons.json';
+import { setTimeout } from 'timers';
 
 export default {
     name: 'app',
     data: function(){
 
         return {
-            // inrad:78, outrad:130, rotated:true,
+            // inrad:45, outrad:90, rotated:true,
             // inrad:60, outrad:120, rotated:true,
-            // inrad:80, outrad:150, rotated:true,
+            // inrad:78, outrad:130, rotated:true,
+            inrad:80, outrad:150, rotated:true,
             // inrad:70, outrad:150, rotated:true,
             // inrad:216, outrad:360, rotated:true,
-            inrad:270, outrad:450, rotated:true,
+            // inrad:270, outrad:450, rotated:true,
             // inrad:200, outrad:450, rotated:true,
             // inrad:600, outrad:1000, rotated:true,
             // inrad:78, outrad:130, rotated:false,
@@ -84,7 +86,8 @@ export default {
 
         showMenu(e){
             // console.log(e);
-            this.pos = {x: e.pageX, y: e.pageY};
+            this.pos = undefined;
+            setTimeout(()=>{ this.pos = {x: e.pageX, y: e.pageY}; }, 200);
             return false;
         },
 

@@ -1,14 +1,13 @@
 <template>
 
-    <!-- :href="'/a?id='+btnbody.id" -->
-    <a 
+    <a :href="'/a?id='+btnbody.id"
         @contextmenu.prevent="showMenu($event)"
         @mouseover="btnOnhover($event)" 
         @mouseout="btnOnOut($event)"
     >
        <svg class="wheel-svg"
            xmlns="http://www.w3.org/2000/svg" version="1.1"
-           :viewBox="'0 0 '+ btnbody.outrad*2 +' '+ btnbody.outrad*2" 
+           :viewBox="`0 0 ${btnbody.outrad*2} ${btnbody.outrad*2}`" 
            :width='btnbody.outrad*2' 
            :height="btnbody.outrad*2" 
        >
@@ -160,46 +159,50 @@ export default {
     .btn-wheel{
         fill: rgba($main-color, 1);
         stroke: $main-color;
+        stroke-width: 2px;
+
         visibility: visible;
-        
-        transition-duration: .7s, .2s, .5s;
+
+        transition-duration: .4s, .4s, .3s;
         transition-property: transform, stroke, fill;
+        transform-origin: center;
         
         width: 100px;
         
-        transform-origin: center;
-        transform: scale(1.01);
+        transform: scale(.9);
         position: absolute;
-
+        
         &:hover {
-            fill: rgba(lighten( $main-color, 10%), .2);
-            stroke: $light-shadow;
             stroke-width: 2px;
-            
-            transform: scale(1.06);
+
+            fill: rgba($main-color, .2);
+            stroke: $light-shadow;
+
+            transform: scale(.95);
             position: absolute;
             
             .icon-circle{
+                // opacity: 0;
                 fill: $icon-color;
                 stroke: $light-shadow;
-                stroke-width: 3px; 
+                stroke-width: 1px; 
                 z-index: 5;
             }
             
             .wheel-icon{
                 fill: $light-shadow;
                 stroke: rgba($light-shadow, 50%);
-                
+                filter: none;
                 transition-duration: 0s, 0s;
                 transition-property: stroke, fill;
             }
         }
         
         .icon-circle{
+            // opacity: 1;
             fill: $extra-color;
             stroke: $icon-color;
             stroke-width: 1px;
-            background-color: black;
         }
     }
 

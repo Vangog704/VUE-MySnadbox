@@ -1,7 +1,6 @@
 <template>
 
     <div class="wheel" :style="'left: '+(position.x-outrad)+'px; top: '+(position.y-outrad)+'px;'"><!-- x,y are center of circle -->
-
         <div class="rotable">
             <!-- title -->
             <div class="info" :style="'line-height: '+size+'px'"> 
@@ -42,8 +41,8 @@ export default {
         const num = this.btns.length;
         let points = [];
         // TODO add h & w 
-        let lvec = new Victor(0, this.outrad*0.94);
-        let svec = new Victor(0, this.inrad*0.94);
+        let lvec = new Victor(0, this.outrad);
+        let svec = new Victor(0, this.inrad);
         let outradvec = new Victor(this.outrad, this.outrad);
         const angle = (Math.PI*2)/num
         lvec.rotate(angle/2);
@@ -65,7 +64,7 @@ export default {
             lvec.subtract(outradvec);
             svec.subtract(outradvec);
 
-            res[i] = new WheelBtn(i, this.btns[i].title, num, points, this.btns[i].icon, this.outrad, this.inrad);
+            res[i] = new WheelBtn(i, this.btns[i].title, angle, points, this.btns[i].icon, this.outrad, this.inrad);
         }
 
         return {
@@ -123,6 +122,7 @@ export default {
 @import './../colorScheme.scss';
 
     .wheel {
+        shape-rendering: auto;
         visibility: hidden;
         border-radius: 90%;
 
@@ -136,10 +136,10 @@ export default {
     }
 
     .rotable{
-        transition-duration: .4s;
+        transition-duration: 1s;
         transition-property: transform;
         &:hover{
-            transition-duration: .4s;
+            transition-duration: .2s;
             transition-property: transform;
         }
     }
@@ -148,14 +148,14 @@ export default {
         position: relative;
         visibility: hidden;
 
-        transition-duration: 0s;
+        transition-duration: .5s;
         transition-property: filter;
         // filter: drop-shadow(0 0 .10rem $light-shadow);
 
         &:hover{
-            transition-duration: 0s;
+            transition-duration: .5s;
             transition-property: filter;
-            filter: drop-shadow(0 0 .30rem $light-shadow);
+            // filter: drop-shadow(0 0 .30rem $light-shadow);
         }
     }
 
