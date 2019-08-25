@@ -1,12 +1,13 @@
-import Victor from './../../node_modules/victor';
+import Victor from 'victor';
 
 export default class WheelBtn{
-    constructor(id, name, angle, points, icon, outrad, inrad){
+    constructor(id, name, angle, points, icon, outrad, inrad, hsize){
         this.id = id;
         this.name = name;
-        this.icon = icon; 
+        this.icon = icon;
         this.ps = points; //points
         this.ps_r = []; //points rounded
+        this.half_size = hsize;
         this.outrad = outrad; // outside radius
         this.inrad = inrad; // inside radius
         this.center = new Victor(0,0);
@@ -47,7 +48,7 @@ export default class WheelBtn{
 
     __calcCenterRot(angle) {
         const hight = .5;
-        const outradvec = new Victor(this.outrad,this.outrad);
+        const outradvec = new Victor(this.half_size,this.half_size);
         
         this.center = this.ps[0].clone().mix(this.ps[3], hight)
             .subtract(outradvec)
@@ -64,7 +65,7 @@ export default class WheelBtn{
     __setGap(){
         let insider
         const gapvec = new Victor(this.gap,this.gap);
-        const outradvec = new Victor(this.outrad,this.outrad);
+        const outradvec = new Victor(this.half_size,this.half_size);
         insider = this.ps[0].clone().subtract(outradvec).rotate(Math.PI/2).normalize().multiply(gapvec);
         this.ps[0].subtract(outradvec).add(insider).add(outradvec)
         this.ps[3].subtract(outradvec).add(insider).add(outradvec)
@@ -74,7 +75,7 @@ export default class WheelBtn{
     }
 
     __calcRaund_forSquared(){
-        const center = new Victor(this.outrad,this.outrad);
+        const center = new Victor(this.half_size,this.half_size);
         for(let i = 0, j = 0 ; i < this.ps.length ; i++, j = 3*i){
             this.ps_r[j] = this.__sidePoint(this.ps[i], this.ps[(i!==0 ? i-1 : this.ps.length-1)], center, 0.2);
             this.ps_r[j+2] = this.__sidePoint(this.ps[i], this.ps[(i+1 < this.ps.length ? i+1 : 0)], center, 0.2);
@@ -85,7 +86,7 @@ export default class WheelBtn{
     __calcRaund_forCircle(angle){
         let ps = this.ps;
         let ps_r = this.ps_r;
-        const center = new Victor(this.outrad,this.outrad);
+        const center = new Victor(this.half_size,this.half_size);
         
         let op1 = ps[0].clone(), op2 = ps[1].clone();
         let ip1 = ps[3].clone(), ip2 = ps[2].clone();

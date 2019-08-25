@@ -7,9 +7,9 @@
     >
        <svg class="wheel-svg"
            xmlns="http://www.w3.org/2000/svg" version="1.1"
-           :viewBox="`0 0 ${btnbody.outrad*2} ${btnbody.outrad*2}`" 
-           :width="btnbody.outrad*2" 
-           :height="btnbody.outrad*2" 
+           :viewBox="`0 0 ${center*2} ${center*2}`" 
+           :width="center*2" 
+           :height="center*2" 
        >
             <g class="btn-wheel">   
                 <filter id="blurHalf">
@@ -80,11 +80,12 @@ export default {
 
         return{
             iconsize:(btn_h < btn_w ? btn_h : btn_w)*(this.btnbody.outrad)/9,
-            iconcirclesize:(btn_h < btn_w ? btn_h : btn_w)*(this.btnbody.outrad/11),
+            iconcirclesize:(btn_h < btn_w ? btn_h : btn_w)*(this.btnbody.outrad/12),
         }
     },
     props: {
         btnbody:WheelBtn,
+        center:Number
     },
     computed:{
         iconWidth(){
@@ -109,12 +110,12 @@ export default {
         btnOnhover(event,id){
 
             let w,h, coef;
-                w = h = this.btnbody.outrad;
+                w = h = this.center;
                 coef = h / 50;
 
             let vec = this.btnbody.center.clone()
                 .subtract(new Victor(w,h))
-                .normalize(h)
+                .normalize()
                 .multiply(new Victor(coef*1.5,coef*1.5))
 
                 // event.target.parentElement.style.transform = "translate("+vec.x+"px,"+vec.y+"px)";
@@ -197,6 +198,7 @@ export default {
             position: absolute;
             
             .icon-circle{
+                pointer-events: none;
                 fill: $icon-color;
                 stroke: $light-shadow;
                 stroke-width: 1px; 
@@ -220,6 +222,7 @@ export default {
     }
 
     .wheel-icon { 
+        pointer-events: none;
         fill:$icon-color;
         stroke: $icon-color;
         stroke-width: 1px;

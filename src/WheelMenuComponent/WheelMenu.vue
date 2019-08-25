@@ -1,8 +1,8 @@
 <template>
 
     <div class="wheel" 
-        :style="`left: ${position.x-outrad}px; 
-                top: ${position.y-outrad}px;`">
+        :style="`left: ${position.x-center}px; 
+                top: ${position.y-center}px;`">
 
         <div class="rotable">
             <!-- title -->
@@ -16,15 +16,20 @@
             <div class="wheel-svg-wraper" 
                 :style="`width: ${size}px; 
                         height: ${size}px;`">
-
                 <!-- buttons -->
+                <div style="position: absolute;"
+                v-for="(btnarr,id) in btnParams" 
+                :key='id'>
+
                 <wheelMenuBtnArc class="weelmenubtn" 
-                    v-for="(p,id) in btnParams" 
-                    :key='id'
-                    :btnbody='p' 
+                    v-for="(p,idd) in btnarr" 
+                    :key='idd'
+                    :btnbody='p'
+                    :center='center'
                     @rotate3d='rotate'
                     @setTitle='setTitle'/>
-
+                </div>
+                
             </div>
         </div>
     </div>
@@ -45,43 +50,46 @@ export default {
     },
     data(){
         let res = [];
-        const num = this.btns.length;
-        let points = [];
-        let outrad = (this.size > 10 ? this.size : 10 )/2;
-        let inrad = outrad*(this.ratio > 0 ? (this.ratio < 1 ? this.ratio : this.ratio/100) : .6 );
-
-        let lvec = new Victor(0, outrad);
-        let svec = new Victor(0, inrad);
-        let outradvec = new Victor(outrad, outrad);
-        const angle = (Math.PI*2)/num
-        lvec.rotate(angle/2);
-        svec.rotate(angle/2);
-        for(let i = 0; i < num; i++){
-            points = [];
-            lvec.add(outradvec);
-            svec.add(outradvec);
-            points[0] = lvec.clone();
-            points[3] = svec.clone();
-            lvec.subtract(outradvec); 
-            svec.subtract(outradvec);
-            lvec.rotate(angle); 
-            svec.rotate(angle);
-            lvec.add(outradvec);
-            svec.add(outradvec);
-            points[1] = lvec.clone();
-            points[2] = svec.clone();
-            lvec.subtract(outradvec);
-            svec.subtract(outradvec);
-
-            res[i] = new WheelBtn(i, this.btns[i].title, angle, points, this.btns[i].icon, outrad, inrad);
+        let ratio = (this.ratio > 0 ? (this.ratio < 1 ? this.ratio : this.ratio/100) : .6 )
+        let center = this.size/2;        
+        for(let l = 0; l < this.btns.length; l++){
+            res[l] = [];
+            const num = this.btns[l].length;
+            let outrad = this.size/2 * (l > 0 ? Math.pow(ratio,l)*Math.pow(.97,l) : 1);
+            let inrad = outrad*ratio;
+            let lvec = new Victor(0, outrad);
+            let svec = new Victor(0, inrad);
+            let outradvec = new Victor(outrad, outrad);
+            let centervec = new Victor(center, center);
+            const angle = (Math.PI*2)/num
+            lvec.rotate(angle/2);
+            svec.rotate(angle/2);
+            for(let i = 0; i < num; i++){
+                let points = [];
+                lvec.add(centervec);
+                svec.add(centervec);
+                points[0] = lvec.clone();
+                points[3] = svec.clone();
+                lvec.subtract(centervec); 
+                svec.subtract(centervec);
+                lvec.rotate(angle); 
+                svec.rotate(angle);
+                lvec.add(centervec);
+                svec.add(centervec);
+                points[1] = lvec.clone();
+                points[2] = svec.clone();
+                lvec.subtract(centervec);
+                svec.subtract(centervec);
+                res[l][i] = new WheelBtn(i, this.btns[l][i].title, angle, points, this.btns[l][i].icon, outrad, inrad, center);
+            }
         }
+        let new_font = (this.size * Math.pow(ratio,this.btns.length)/180)+'em';
 
-        return {
+    return {
             btnParams: res,
             title:'',
-            outrad: outrad,
-            inrad: inrad,
-            title_font:( !this.$props.font ? (this.$props.size/180)+'em' : this.$props.font+'em')
+            center: center,
+            title_font: ( !this.$props.font ? new_font : this.$props.font+'em'),
         }
     },
     computed:{
@@ -146,10 +154,10 @@ export default {
     }
 
     .rotable{
-        transition-duration: 1s;
+        transition-duration: .5s;
         transition-property: transform;
         &:hover{
-            transition-duration: .2s;
+            transition-duration: .5s;
             transition-property: transform;
         }
     }
