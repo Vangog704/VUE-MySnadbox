@@ -3,30 +3,35 @@
     <div id="app" @contextmenu.prevent="showMenu($event)" @click="pos = undefined">
         <!-- <canvas :id="title" width="578" height="200"></canvas> -->
         <div class="aaa">AAA</div>
-        <!-- <transition name='fade'>
+
+        <transition name='fade'>
             <wheel-menu v-if='pos' 
-                :inrad='195' 
-                :outrad='300' 
-                :btns="btnarray1" 
+                :ratio='ratio*0.9' 
+                :size='size*2' 
+                :btns="btnarray3" 
+                :rotated="rotated"
                 :position="pos"
             />
         </transition>
         <transition name='fade'>
             <wheel-menu v-if='pos' 
-                :inrad='110' 
-                :outrad='180' 
+                :ratio='ratio' 
+                :size='size' 
                 :btns="btnarray2" 
-                :position="pos"
-            />
-        </transition> -->
-        <transition name='fade'>
-            <wheel-menu v-if='pos' 
-                :inrad='inrad' 
-                :outrad='outrad' 
-                :btns="btnarray1" 
+                :rotated="rotated"
                 :position="pos"
             />
         </transition>
+        <transition name='fade'>
+            <wheel-menu v-if='pos' 
+                :ratio='ratio' 
+                :size='size/1.8' 
+                :btns="btnarray1" 
+                :rotated="rotated"
+                :position="pos"
+            />
+        </transition>
+
     </div>
 
 </template>
@@ -42,20 +47,25 @@ export default {
     data: function(){
 
         return {
-            // inrad:45, outrad:90, rotated:true,
-            // inrad:60, outrad:120, rotated:true,
-            // inrad:78, outrad:130, rotated:true,
-            inrad:80, outrad:150, rotated:true,
-            // inrad:70, outrad:150, rotated:true,
-            // inrad:216, outrad:360, rotated:true,
-            // inrad:270, outrad:450, rotated:true,
-            // inrad:200, outrad:450, rotated:true,
-            // inrad:600, outrad:1000, rotated:true,
-            // inrad:78, outrad:130, rotated:false,
-            // inrad:80, outrad:150, rotated:false,
-            // inrad:216, outrad:360, rotated:false,
-            // inrad:270, outrad:450, rotated:false,
-            // inrad:600, outrad:1000, rotated:false,
+            // size:120,
+            // size:180,
+            // size:200,
+            // size:240,
+            size:360,
+            // size:400,
+            // size:800,
+            // size:1200,
+            // size:1600, 
+                       
+            // ratio:80,  
+            // ratio:70,  
+            ratio:60,  
+            // ratio:50,  
+            // ratio:40,  
+            rotated:false,
+            // rotated:true,
+
+
             pos: undefined,
             title:'myCanvas',
             btnarray1: [
@@ -69,13 +79,40 @@ export default {
                 {title:"Fire", icon: Icons.fire},
                 {title:"Sword",icon: Icons.sword},
                 {title:"Fire", icon: Icons.fire},
+                {title:"Head Phones", icon: Icons.headphone},
             ],
             btnarray2: [
                 {title:"ZIP", icon: Icons.zip},
                 {title:"DATA", icon: Icons.data},
                 {title:"Pen", icon: Icons.pen},
                 {title:"QR", icon: Icons.qr},
-            ]
+            ],
+            btnarray3: [
+                {title:"ZIP", icon: Icons.zip},
+                {title:"DATA", icon: Icons.data},
+                {title:"Pen", icon: Icons.pen},
+                {title:"QR", icon: Icons.qr},
+                {title:"Bones", icon: Icons.bones},
+                {title:"Head Phones", icon: Icons.headphone},
+                {title:"Sword",icon: Icons.sword},
+                {title:"Fire", icon: Icons.fire},
+                {title:"Sword",icon: Icons.sword},
+                {title:"Fire", icon: Icons.fire},
+                {title:"Head Phones", icon: Icons.headphone},
+                {title:"ZIP", icon: Icons.zip},
+                {title:"DATA", icon: Icons.data},
+                {title:"Pen", icon: Icons.pen},
+                {title:"QR", icon: Icons.qr},
+                {title:"Bones", icon: Icons.bones},
+                {title:"Head Phones", icon: Icons.headphone},
+                {title:"Sword",icon: Icons.sword},
+                {title:"Fire", icon: Icons.fire},
+                {title:"Sword",icon: Icons.sword},
+                {title:"Fire", icon: Icons.fire},
+                {title:"Head Phones", icon: Icons.headphone},
+                {title:"ZIP", icon: Icons.zip},
+                {title:"DATA", icon: Icons.data},
+           ]
         }
 
     },
@@ -90,59 +127,10 @@ export default {
             setTimeout(()=>{ this.pos = {x: e.pageX, y: e.pageY}; }, 200);
             return false;
         },
-
-        updateCanvas: function(){  
-            
-            // document.oncontextmenu = ()=>false;
-            // let self = this;
-            // // console.log(this);
-            // document.oncontextmenu = function() {return false;}
-            // document.addEventListener( "contextmenu", function(e) {
-            //     console.log(e.clientX);
-            //     self.x = e.clientX;
-            //     self.y = e.clientY;
-            // });
-
-            // document.onmousedown = (e) => {
-            //     console.log(e);
-                
-            //     // self.x = -9999;
-            //     // self.y = -9999;
-            // };
-
-            // var pos= {x: 80,y: 80};
-            // console.log('created');
-            // var canvas = document.getElementById(this.title);
-            // var ctx = canvas.getContext('2d');
-            
-            // ctx.beginPath();
-            // ctx.arc(100, 100, 100, Math.PI, 0);
-            // ctx.fillStyle = "red";  
-            // ctx.fill();
-            // ctx.closePath();
-            
-            // ctx.beginPath();
-            // ctx.globalCompositeOperation = 'destination-out';
-            // ctx.arc(100, 100, 50, 0, Math.PI * 2);
-            // ctx.fill();
-            // ctx.closePath();
-            // console.log(ctx.isPointInPath(pos.x, pos.y));
-            
-            // ctx.beginPath();
-            // ctx.arc(100, 100, 20, 0, Math.PI * 2);
-            // ctx.globalCompositeOperation = 'source-over';
-            // ctx.fillStyle = "green";
-            // ctx.fill();
-            // ctx.closePath();
-            
-            // ctx.fillStyle = 'green';
-            // ctx.arc(pos.x, pos.y, 2, 0, Math.PI * 2);
-            // ctx.fill();
-        } 
+        
     },
     mounted: function (){
 
-        this.updateCanvas();
     }
 }
 

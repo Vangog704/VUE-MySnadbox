@@ -8,7 +8,7 @@
        <svg class="wheel-svg"
            xmlns="http://www.w3.org/2000/svg" version="1.1"
            :viewBox="`0 0 ${btnbody.outrad*2} ${btnbody.outrad*2}`" 
-           :width='btnbody.outrad*2' 
+           :width="btnbody.outrad*2" 
            :height="btnbody.outrad*2" 
        >
             <g class="btn-wheel">   
@@ -23,12 +23,12 @@
                 <circle class="icon-circle"
                     cx=0 cy=0 
                     :r="iconcirclesize"  
-                    :style="'transform: translate('+(btnbody.center.x)+'px,'+(btnbody.center.y)+'px);'"
+                    :style="`transform: translate(${btnbody.center.x}px, ${btnbody.center.y}px);`"
                     filter="url(#blurHalf)"
                 />
 
                 <path class="wheel-icon"
-                    :style="' transform: translate('+(btnbody.center.x-iconsize/2)+'px,'+(btnbody.center.y-iconsize/2)+'px) scale('+iconWidth+','+iconHeight+') '"
+                    :style="`transform: translate(${btnbody.center.x-iconsize/2}px, ${btnbody.center.y-iconsize/2}px) scale(${iconWidth}, ${iconHeight})`"
                     :d="btnbody.icon.d"
                 />
                 <!-- debuging stuff -->
@@ -47,7 +47,7 @@
 <!--=================================================================================================-->
 
 <script>
-import Victor from './../../node_modules/victor';
+import Victor from 'victor';
 import WheelBtn from './WheelBtnClass.js';
 import { returnStatement } from 'babel-types';
 
@@ -75,10 +75,12 @@ export default {
                 
         //         this.btnbody.icon = doc.children[0].children[0].attributes.d.value;
         // });
+        let btn_h = (1-(this.btnbody.inrad/this.btnbody.outrad))*5;
+        let btn_w = (this.btnbody.angle/Math.PI*12);
 
         return{
-            iconsize:(this.btnbody.outrad - this.btnbody.inrad)/2.2,
-            iconcirclesize:(this.btnbody.outrad - this.btnbody.inrad)/2.8,
+            iconsize:(btn_h < btn_w ? btn_h : btn_w)*(this.btnbody.outrad)/9,
+            iconcirclesize:(btn_h < btn_w ? btn_h : btn_w)*(this.btnbody.outrad/11),
         }
     },
     props: {
@@ -104,7 +106,7 @@ export default {
             e.stopPropagation();
         },
 
-        btnOnhover(event){
+        btnOnhover(event,id){
 
             let w,h, coef;
                 w = h = this.btnbody.outrad;
@@ -123,19 +125,32 @@ export default {
                                           .normalize()
                                           .multiply(new Victor(10,10));
                                           
-                // console.log(this.btnbody.center);
-                // console.log(rvec);
                 vec.multiply(new Victor(2,2));
                 
                 this.$emit('rotate3d',rvec,vec,coef*2);
                 this.$emit('setTitle',1+this.btnbody.id + '. '+ this.btnbody.name);
+            
+            // let list = this.$el.parentElement.childNodes
+            // let a = (list.length < (this.btnbody.id) ? 0 : this.btnbody.id);
+            // let b = (0 <= (this.btnbody.id) ? this.btnbody.id : list.length);
+            // for(let i = 0; i < list.length/2;i++){
+            //     list[(list.length <= (++a) ? a=0 : a)].getElementsByClassName('btn-wheel')[0].style = ` opacity: ${.4-(i/list.length)}; `;
+            //     list[(0 <= (--b) ? b : b=list.length-1)].getElementsByClassName('btn-wheel')[0].style = ` opacity: ${.4-(i/list.length)}; `;
+            // }                
         },
 
-        btnOnOut(event){
-            // console.log('text');
+        btnOnOut(event){            
             event.target.parentElement.style.transform = "";
             this.$emit('rotate3d');
             this.$emit('setTitle','');
+            
+            // let list = this.$el.parentElement.childNodes
+            // let a = (list.length < (this.btnbody.id) ? 0 : this.btnbody.id);
+            // let b = (0 <= (this.btnbody.id) ? this.btnbody.id : list.length);
+            // for(let i = 0; i < list.length/2;i++){
+            //     list[(list.length <= (++a) ? a=0 : a)].getElementsByClassName('btn-wheel')[0].style = `  `;
+            //     list[(0 <= (--b) ? b : b=list.length-1)].getElementsByClassName('btn-wheel')[0].style = `  `;
+            // }  
         },
     }
 }
@@ -182,7 +197,6 @@ export default {
             position: absolute;
             
             .icon-circle{
-                // opacity: 0;
                 fill: $icon-color;
                 stroke: $light-shadow;
                 stroke-width: 1px; 
@@ -193,13 +207,12 @@ export default {
                 fill: $light-shadow;
                 stroke: rgba($light-shadow, 50%);
                 filter: none;
-                transition-duration: 0s, 0s;
-                transition-property: stroke, fill;
+                // transition-duration: 0s, 0s;
+                // transition-property: stroke, fill;
             }
         }
         
         .icon-circle{
-            // opacity: 1;
             fill: $extra-color;
             stroke: $icon-color;
             stroke-width: 1px;
@@ -214,8 +227,8 @@ export default {
         width: 10px;
         height: 10px;
 
-        transition-duration: .2s, .7s;
-        transition-property: stroke, fill;
+        // transition-duration: .2s, .7s;
+        // transition-property: stroke, fill;
         
         align-content: center;
     }

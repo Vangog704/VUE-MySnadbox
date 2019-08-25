@@ -1,23 +1,30 @@
 <template>
 
-    <div class="wheel" :style="'left: '+(position.x-outrad)+'px; top: '+(position.y-outrad)+'px;'"><!-- x,y are center of circle -->
+    <div class="wheel" 
+        :style="`left: ${position.x-outrad}px; 
+                top: ${position.y-outrad}px;`">
+
         <div class="rotable">
             <!-- title -->
-            <div class="info" :style="'line-height: '+size+'px'"> 
-                <h6 :style="' font-size: '+font+';'">
-                    {{title}}
-                </h6>
+            <div class="info" 
+                :style="`line-height: ${size}px`"> 
+
+                <h6 :style="`font-size: ${title_font};`">{{title}}</h6>
+            
             </div>
-            <!-- all circle -->
-            <div class="wheel-svg-wraper" :style="' width: '+size+'px; height: '+size+'px; '">
+            <!-- Full circle -->
+            <div class="wheel-svg-wraper" 
+                :style="`width: ${size}px; 
+                        height: ${size}px;`">
+
                 <!-- buttons -->
                 <wheelMenuBtnArc class="weelmenubtn" 
                     v-for="(p,id) in btnParams" 
                     :key='id'
                     :btnbody='p' 
                     @rotate3d='rotate'
-                    @setTitle='setTitle'
-                />
+                    @setTitle='setTitle'/>
+
             </div>
         </div>
     </div>
@@ -27,7 +34,7 @@
 <!--=================================================================================================-->
 
 <script>
-import Victor from './../../node_modules/victor';
+import Victor from 'victor';
 import WheelMenuBtn from './WheelMenuBtnArcSVGComponent.vue'
 import WheelBtn from './WheelBtnClass.js';
 
@@ -40,10 +47,12 @@ export default {
         let res = [];
         const num = this.btns.length;
         let points = [];
-        // TODO add h & w 
-        let lvec = new Victor(0, this.outrad);
-        let svec = new Victor(0, this.inrad);
-        let outradvec = new Victor(this.outrad, this.outrad);
+        let outrad = (this.size > 10 ? this.size : 10 )/2;
+        let inrad = outrad*(this.ratio > 0 ? (this.ratio < 1 ? this.ratio : this.ratio/100) : .6 );
+
+        let lvec = new Victor(0, outrad);
+        let svec = new Victor(0, inrad);
+        let outradvec = new Victor(outrad, outrad);
         const angle = (Math.PI*2)/num
         lvec.rotate(angle/2);
         svec.rotate(angle/2);
@@ -64,26 +73,27 @@ export default {
             lvec.subtract(outradvec);
             svec.subtract(outradvec);
 
-            res[i] = new WheelBtn(i, this.btns[i].title, angle, points, this.btns[i].icon, this.outrad, this.inrad);
+            res[i] = new WheelBtn(i, this.btns[i].title, angle, points, this.btns[i].icon, outrad, inrad);
         }
 
         return {
             btnParams: res,
             title:'',
-            font:(this.inrad/85)+'em',
-            size: (this.outrad*2),
+            outrad: outrad,
+            inrad: inrad,
+            title_font:( !this.$props.font ? (this.$props.size/180)+'em' : this.$props.font+'em')
         }
     },
     computed:{
 
     },
     props:{
-        rotated:{type: Boolean, default: true},
-        outrad:Number,
-        inrad:Number, 
-        name:String,
         btns:Array,
-        position:Object
+        size:{type:Number, default: 360},
+        ratio:{type:Number, default: .6},
+        rotated:{type: Boolean, default: true},
+        position:Object,
+        font:Number,
     },
     methods:{
 
@@ -97,10 +107,10 @@ export default {
                 return;
             }
             if(!this.rotated) return;
-            this.$el.getElementsByClassName('rotable')[0].style.transform = " rotateX("+rvec.y+"deg) rotateY("+-rvec.x+"deg) translate("+-mvec.x+"px,"+-mvec.y+"px)";
+            this.$el.getElementsByClassName('rotable')[0].style.transform = ` rotateX(${rvec.y}deg) rotateY(${-rvec.x}deg) translate(${-mvec.x}px, ${-mvec.y}px)`;
             // this.$el.getElementsByClassName('rotable')[0].style['transform-origin'] = " "+this.outrad+"px, "+this.outrad+"px ";
             // this.$el.getElementsByClassName('info')[0].style.transform = " translate("+-mvec.x+"px,"+-mvec.y+"px)";
-            this.$el.style['perspective'] = pers+'cm';
+            this.$el.style['perspective'] = `${pers}cm`;
         },
 
         updateCanvas: function(){    
@@ -150,7 +160,7 @@ export default {
 
         transition-duration: .5s;
         transition-property: filter;
-        // filter: drop-shadow(0 0 .10rem $light-shadow);
+        // filter: drop-shadow(0 0 .20rem $light-shadow);
 
         &:hover{
             transition-duration: .5s;
@@ -186,7 +196,7 @@ export default {
             vertical-align: middle;
             display: inline-block;
         }
-    } 
+    }
 
     /* .bee{
         background-color: #ce9200;

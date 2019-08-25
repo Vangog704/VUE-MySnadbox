@@ -11,8 +11,10 @@ export default class WheelBtn{
         this.inrad = inrad; // inside radius
         this.center = new Victor(0,0);
         this.path_d = "";
+        this.gap = 1+this.outrad/300;
+        this.angle = angle;
 
-        this.calc_shape(angle,true,false);
+        this.calc_shape(angle,true,true);
     }
 
     calc_shape(angle, iscircled, isrounded){
@@ -61,8 +63,7 @@ export default class WheelBtn{
 
     __setGap(){
         let insider
-        const gap = 0;
-        const gapvec = new Victor(gap,gap);
+        const gapvec = new Victor(this.gap,this.gap);
         const outradvec = new Victor(this.outrad,this.outrad);
         insider = this.ps[0].clone().subtract(outradvec).rotate(Math.PI/2).normalize().multiply(gapvec);
         this.ps[0].subtract(outradvec).add(insider).add(outradvec)
@@ -89,8 +90,8 @@ export default class WheelBtn{
         let op1 = ps[0].clone(), op2 = ps[1].clone();
         let ip1 = ps[3].clone(), ip2 = ps[2].clone();
         let angle_r = angle * .1;
-        let olc = .9, otc = .9;
-        let ilc = .9, itc = .9;
+        let olc = .5, otc = .8;
+        let ilc = .3, itc = .8;
         op1.subtract(center);
         op2.subtract(center);
         ip1.subtract(center);
