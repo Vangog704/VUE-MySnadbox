@@ -10,7 +10,7 @@ export default class WheelBtn{
         this.half_size = hsize;
         this.outrad = outrad; // outside radius
         this.inrad = inrad; // inside radius
-        this.center = new Victor(0,0);
+        this.center;
         this.path_d = "";
         this.gap = 1+this.outrad/300;
         this.angle = angle;
@@ -39,11 +39,11 @@ export default class WheelBtn{
     }
 
     __calcCenterAvg() {
-        const hight = .5;
+        const height = .5;
         const side = .5;
 
-        this.center = this.ps[0].clone().mix(this.ps[3],hight)
-                .mix(this.ps[1].clone().mix(this.ps[2],hight), side);
+        this.center = this.ps[0].clone().mix(this.ps[3],height)
+                .mix(this.ps[1].clone().mix(this.ps[2],height), side);
     }
 
     __calcCenterRot(angle) {
@@ -91,33 +91,33 @@ export default class WheelBtn{
         let op1 = ps[0].clone(), op2 = ps[1].clone();
         let ip1 = ps[3].clone(), ip2 = ps[2].clone();
         let angle_r = angle * .1;
-        let olc = .5, otc = .8;
-        let ilc = .3, itc = .8;
-        op1.subtract(center);
-        op2.subtract(center);
-        ip1.subtract(center);
-        ip2.subtract(center);
+        let olc = .8, otc = .8;
+        let ilc = .2, itc = .8;
+            op1.subtract(center);
+            op2.subtract(center);
+            ip1.subtract(center);
+            ip2.subtract(center);
         let lcl = ip1.clone().mix(op1, .15).subtract(ip1);
         let lcr = ip2.clone().mix(op2, .15).subtract(ip2);
-        ps_r[15] = ps[3].clone().add(lcl);
-        ps_r[8] = ps[2].clone().add(lcr);
-        ps_r[14] = ps[3].clone().mix(ps_r[15], ilc);
-        ps_r[9] = ps[2].clone().mix(ps_r[8], ilc);
+            ps_r[15] = ps[3].clone().add(lcl);
+            ps_r[8] = ps[2].clone().add(lcr);
+            ps_r[14] = ps[3].clone().mix(ps_r[15], ilc);
+            ps_r[9] = ps[2].clone().mix(ps_r[8], ilc);
 
-        ps_r[12] = ip1.rotate(angle_r).add(center);
-        ps_r[11] = ip2.rotate(-angle_r).add(center);
-        ps_r[13] = ps_r[12].clone().mix(ps[3], itc);
-        ps_r[10] = ps_r[11].clone().mix(ps[2], itc);
+            ps_r[12] = ip1.rotate(angle_r*2).add(center);
+            ps_r[11] = ip2.rotate(-angle_r*2).add(center);
+            ps_r[13] = ps_r[12].clone().mix(ps[3], itc);
+            ps_r[10] = ps_r[11].clone().mix(ps[2], itc);
 
-        ps_r[0] = ps[0].clone().subtract(lcl);
-        ps_r[7] = ps[1].clone().subtract(lcr);
-        ps_r[1] = ps_r[0].clone().mix(ps[0], olc);
-        ps_r[6] = ps_r[7].clone().mix(ps[1], olc);
-        
-        ps_r[3] = op1.rotate(angle_r).add(center);
-        ps_r[4] = op2.rotate(-angle_r).add(center);
-        ps_r[2] = ps_r[3].clone().mix(ps[0], otc);
-        ps_r[5] = ps_r[4].clone().mix(ps[1], otc);
+            ps_r[0] = ps[0].clone().subtract(lcl);
+            ps_r[7] = ps[1].clone().subtract(lcr);
+            ps_r[1] = ps_r[0].clone().mix(ps[0], olc);
+            ps_r[6] = ps_r[7].clone().mix(ps[1], olc);
+            
+            ps_r[3] = op1.rotate(angle_r).add(center);
+            ps_r[4] = op2.rotate(-angle_r).add(center);
+            ps_r[2] = ps_r[3].clone().mix(ps[0], otc);
+            ps_r[5] = ps_r[4].clone().mix(ps[1], otc);
     }
 
     __doPathCircle(){
@@ -144,24 +144,24 @@ export default class WheelBtn{
 
     __doPathRoundedSuared(){
         this.path_d = 
-        ` M ${this.ps_r[0].x},  ${this.ps_r[0].y}`+
-        ` Q ${this.ps_r[1].x},  ${this.ps_r[1].y}  ${this.ps_r[2].x},  ${this.ps_r[2].y} `+
-        ` L ${this.ps_r[3].x},  ${this.ps_r[3].y}`+ 
-        ` Q ${this.ps_r[4].x},  ${this.ps_r[4].y}  ${this.ps_r[5].x},  ${this.ps_r[5].y} `+
-        ` L ${this.ps_r[6].x},  ${this.ps_r[6].y}`+ 
-        ` Q ${this.ps_r[7].x},  ${this.ps_r[7].y}  ${this.ps_r[8].x},  ${this.ps_r[8].y} `+
-        ` L ${this.ps_r[9].x},  ${this.ps_r[9].y}`+ 
-        ` Q ${this.ps_r[10].x},  ${this.ps_r[10].y}  ${this.ps_r[11].x},  ${this.ps_r[11].y} `+
-        ` z `;
+            ` M ${this.ps_r[0].x},  ${this.ps_r[0].y}`+
+            ` Q ${this.ps_r[1].x},  ${this.ps_r[1].y}  ${this.ps_r[2].x},  ${this.ps_r[2].y} `+
+            ` L ${this.ps_r[3].x},  ${this.ps_r[3].y}`+ 
+            ` Q ${this.ps_r[4].x},  ${this.ps_r[4].y}  ${this.ps_r[5].x},  ${this.ps_r[5].y} `+
+            ` L ${this.ps_r[6].x},  ${this.ps_r[6].y}`+ 
+            ` Q ${this.ps_r[7].x},  ${this.ps_r[7].y}  ${this.ps_r[8].x},  ${this.ps_r[8].y} `+
+            ` L ${this.ps_r[9].x},  ${this.ps_r[9].y}`+ 
+            ` Q ${this.ps_r[10].x},  ${this.ps_r[10].y}  ${this.ps_r[11].x},  ${this.ps_r[11].y} `+
+            ` z `;
     } 
 
     __doPathSuared(){
         this.path_d = 
-        ` M ${this.ps[0].x} ${this.ps[0].y} `+
-        ` L ${this.ps[1].x} ${this.ps[1].y} `+ 
-        ` L ${this.ps[2].x} ${this.ps[2].y} `+
-        ` L ${this.ps[3].x} ${this.ps[3].y} `+
-        ` z `
+            ` M ${this.ps[0].x} ${this.ps[0].y} `+
+            ` L ${this.ps[1].x} ${this.ps[1].y} `+ 
+            ` L ${this.ps[2].x} ${this.ps[2].y} `+
+            ` L ${this.ps[3].x} ${this.ps[3].y} `+
+            ` z `
     } 
 
 }
