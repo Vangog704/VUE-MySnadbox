@@ -4,23 +4,21 @@ import calc from "./circular-menu-config";
 export default class CircularMenuBuilder {
 
 	constructor(conf) {
-
 		this._conf = conf;
 		this._res = [];
-		this._defAperture = 10;
+		this._defAperture = 5;
 
 		let maxBtnCount = conf.aperture / this._defAperture;
 		let btns = (conf.btns === undefined ? {} : conf.btns);
 		this._btnCount = (btns.length > maxBtnCount ? maxBtnCount : btns.length);
-
 	}
 
 	build() {
-
 		if (!this._valid_config()) {
+			//TODO add error message
 			return [];
 		}
-		//TODO move
+		//TODO consider move somewhere
 		for (let i = 0; i < this._btnCount; i++) {
 			this._res[i] = calc.calc_arc_shape(this._conf.btns[i]);
 			if (this._conf.btns[i].btns != null) {
@@ -33,7 +31,7 @@ export default class CircularMenuBuilder {
 
 	_valid_config() {
 		if (this._conf.btns.length < 2) {
-			//TODO add log massage
+			//TODO add error massage
 			return false;
 		}
 		return this._specify_aperture() && this._specify_angles() && this._specify_radius();

@@ -15,7 +15,7 @@ function calc_arc_shape(btnconfig) {
 	ps[1] = orvec.clone().rotateDeg(half_aperture);
 	ps[2] = irvec.clone().rotateDeg(half_aperture);
 
-	__setGap(ps, outrad);
+	__setGap(ps);
 
 	let ps_r = calcRaund_forCircle(ps, btnconfig.aperture);
 
@@ -38,16 +38,22 @@ function calc_arc_shape(btnconfig) {
 	};
 }
 
-function __setGap(ps, outrad) {
-	let insider
-	let gap = 5;
+function __setGap(ps) {
+	const gap = 2;
 	const gapvec = new Victor(gap, gap);
-	insider = ps[0].clone().rotate(Math.PI / 2).normalize().multiply(gapvec);
-	ps[0].add(insider);
-	ps[3].add(insider).multiply(new Victor(1.02,1.02));
-	insider = ps[1].clone().rotate(Math.PI / 2).normalize().multiply(gapvec);
-	ps[1].subtract(insider);
-	ps[2].subtract(insider).multiply(new Victor(1.02,1.02));
+	
+	const hor_gap_0_3 = ps[0].clone().normalize().multiply(gapvec);
+	const hor_gap_1_2 = ps[1].clone().normalize().multiply(gapvec);
+	let ver_gap;
+	
+	ver_gap = ps[0].clone().rotate(Math.PI / 2).normalize().multiply(gapvec);
+	ps[0].add(ver_gap).subtract(hor_gap_0_3);
+	ps[3].add(ver_gap).add(hor_gap_0_3);
+	
+	ver_gap = ps[1].clone().rotate(Math.PI / 2).normalize().multiply(gapvec);
+	ps[1].subtract(ver_gap).subtract(hor_gap_1_2);
+	ps[2].subtract(ver_gap).add(hor_gap_1_2);
+
 }
 
 function calc_iconsize(center, aperture, height) {

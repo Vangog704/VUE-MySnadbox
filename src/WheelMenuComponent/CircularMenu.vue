@@ -1,5 +1,10 @@
 <template>
   <div class="circular-menu-container" :style="`left:${pos.x}px; top:${pos.y}px;`">
+    <!-- <div class="info"
+      :style="`transform: translate(${mov.x}px,${-mov.y}px);`"
+    >
+      <h1>Axcvvc hgf ddd fgAA dfsdfdhg dsgdf dfgdfgsgs gsd sd sdg sgh g as</h1>
+    </div> -->
     <div class="rotable" 
         :style="`transform: rotateX(${rot.y}deg) rotateY(${rot.x}deg) translate(${mov.x}px,${-mov.y}px);`"
     >
@@ -36,7 +41,6 @@ export default {
     return {
       rot: { x: 0, y: 0 },
       mov: { x: 0, y: 0 },
-      shapes: new CircularMenuBuilder(this.conf).build(),
     };
   },
   methods: {
@@ -47,9 +51,18 @@ export default {
     },
     btnout() {
       this.mov = this.rot = {x:0, y:0};
+    },
+  },
+  computed: {
+    shapes() {
+      console.log('build');
+      return new CircularMenuBuilder(Object.assign({},this.conf)).build();
     }
   },
-  mounted: function() {}
+  mounted: function() {
+    // console.log('build');
+    //   this.shapes = new CircularMenuBuilder(this.conf).build();
+  }
 };
 </script>
 
@@ -69,6 +82,26 @@ export default {
 
 .rotable{
   transition-duration: .5s;
+}
+
+.info{
+  visibility: visible;
+  position:absolute;
+  width: 400px;
+  top: -2.5em;
+  left: -200px;
+  background-color: red;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition-duration: .5s;
+  line-height: 5em;
+  h1{
+    position:relative;
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+    width: 100%;
+  }
 }
 
 </style>

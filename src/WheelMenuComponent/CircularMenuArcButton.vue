@@ -1,10 +1,12 @@
 <template>
 
     <div class="main">
-        <a class="svg-pack" :href="`/a?id=${shape.id}`" 
+            <!-- :href="`/a?id=${shape.id}`"  -->
+        <a class="svg-pack" 
             @mouseover="mouseoverhandle($event)"
             @mouseout="mouseouthandle($event)"
         >
+
             <svg class="circular-menu-arc"
                 :style="`left:${-shape.box.w/2-16}; top:${-shape.box.h-16};`"
                 :viewBox="`${shape.box.x} ${shape.box.y-16} ${shape.box.w} ${shape.box.h+32}`"
@@ -12,13 +14,8 @@
                 :height="`${shape.box.h+32}`"
                 xmlns="http://www.w3.org/2000/svg" version="1.1"
             >
-                <filter id="blurHalf">
-                    <feGaussianBlur stdDeviation="0.7"/>
-                </filter>
                 <g class="btn-arc-group"> 
-                    <path :d="arc_path"
-                        filter="url(#blurHalf)"
-                    />
+                    <path :d="arc_path"/>
                 </g>
             </svg>
 
@@ -29,12 +26,11 @@
                 :height="`${shape.box.h+32}`"
                 xmlns="http://www.w3.org/2000/svg" version="1.1"
             >
-                    <circle class="icon-circle"
-                        :cx="`0`"
-                        :cy="`${shape.iconpos.y}`"
-                        :r="`${shape.iconsize/2}`"
-                        filter="url(#blurHalf)"
-                    />
+                <circle class="icon-circle"
+                    :cx="`0`"
+                    :cy="`${shape.iconpos.y}`"
+                    :r="`${shape.iconsize/2}`"
+                />
             </svg>
             <div class="icon-container"
                 :style="`
@@ -52,10 +48,8 @@
                         width:${shape.iconsize}px;
                         height:${shape.iconsize}px;`"
                 >
-                    <svg class=""
+                    <svg :style="`position: absolute;`"
                         :viewBox="`${-10} ${-10} ${shape.icon.size.w+20} ${shape.icon.size.h+20}`"
-                        :width="`${shape.iconsize}`"
-                        :height="`${shape.iconsize}`"
                         xmlns="http://www.w3.org/2000/svg" version="1.1"
                     >
                         <path class="icon"
@@ -94,16 +88,20 @@ export default {
     data(){
 
     return {
-        arc_path: this.shape.path_r,
+        
         }
     },
-    
+    computed:{
+        arc_path(){
+            return this.shape.path_r;
+        },
+    },
     methods:{
 
         mouseoverhandle(event){
             let vec = this.shape.iconpos.clone().rotateDeg(-this.shape.angle).normalize();
-            let movvec = vec.clone().multiply(new Victor(30,30));
-            let rotvec = vec.multiply(new Victor(10,10));
+            let movvec = vec.multiply(new Victor(10,10));
+            let rotvec = vec.clone();
             this.$emit('hover', this.shape.id, rotvec, movvec);
         },
         mouseouthandle(event){
@@ -111,8 +109,8 @@ export default {
         },
 
         childvmouseoverhandle(btnid, rotvec, movvec) {
-            // movvec.multiply(new Victor(1.2,1.2));
-            // rotvec.multiply(new Victor(1.2,1.2));
+            movvec.divide(new Victor(1.2,1.2));
+            rotvec.divide(new Victor(1.2,1.2));
             this.$emit('hover', this.shape.id, rotvec, movvec);
         },
         childmouseouthandle() {
@@ -173,9 +171,10 @@ export default {
     }
 
     .svg-pack{
-        // transition-duration: .4s, .4s, .3s;
-        transition-duration: .4s;
-        // transition-property: transform, stroke, fill;
+        filter: blur(.5px); 
+
+        transition-duration: .4s, .4s, .3s;
+        transition-property: transform, stroke, fill;
         &:hover{
             z-index: 10;
             transform: scale(1.03);  
@@ -192,13 +191,12 @@ export default {
         visibility: hidden;
         background-color: aqua;
         // transform: scale(1);
-
         fill: rgba($main-color, 1);
         stroke: $main-color;
-        stroke-width: 5px;
+        stroke-width: 1px;
         &:hover{
-            stroke-width: 10px;
-            fill: rgba($main-color, .2);
+            stroke-width: 2px;
+            fill: rgba($main-color, .3);
             stroke: $light-shadow;
             filter: drop-shadow(0 0 2rem $selected-shodow);
         }
@@ -211,15 +209,14 @@ export default {
     .icon-circle{
         visibility: visible;
         pointer-events: none;
-        fill: $main-color;
+        fill: rgba($main-color, .9);
         stroke: $light-shadow;
-        stroke-width: 3px; 
+        stroke-width: 1px;
     }
 
     .child-btns{
         transition-duration: .6s;
         transition-property: opacity;
-        
     }
 
 </style>
