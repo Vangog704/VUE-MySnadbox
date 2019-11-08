@@ -61,7 +61,7 @@ export default {
   },
   mounted: function() {
     // console.log('build');
-    //   this.shapes = new CircularMenuBuilder(this.conf).build();
+      // this.shapes = new CircularMenuBuilder(this.conf).build();
   }
 };
 </script>

@@ -48,7 +48,7 @@
                         width:${shape.iconsize}px;
                         height:${shape.iconsize}px;`"
                 >
-                    <svg :style="`position: absolute;`"
+                    <svg 
                         :viewBox="`${-10} ${-10} ${shape.icon.size.w+20} ${shape.icon.size.h+20}`"
                         xmlns="http://www.w3.org/2000/svg" version="1.1"
                     >
@@ -75,7 +75,6 @@
 
 <script>
 import Victor from 'victor';
-import calc from './circular-menu-config';
 
 export default {
     name: 'circular-menu-arc-button',
@@ -86,9 +85,8 @@ export default {
         shape:Object,
     },
     data(){
+        return {
 
-    return {
-        
         }
     },
     computed:{
@@ -119,7 +117,7 @@ export default {
 
     },
     mounted: function (){
-
+        
     }
 };
 
@@ -177,7 +175,7 @@ export default {
         transition-property: transform, stroke, fill;
         &:hover{
             z-index: 10;
-            transform: scale(1.03);  
+            // transform: scale(1.02);  
             .icon{
                 fill: $selected-shodow;
                 stroke: $light-shadow;

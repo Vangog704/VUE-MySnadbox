@@ -1,10 +1,9 @@
-import Wheel from "./WheelMenu.vue";
+import RadialMenuComponent from "./RadialMenuComponent.vue";
 
 export default {
     install(Vue, params={}) {
         
-        console.log('Wheel Menu Instalation');
-        Vue.component(Wheel.name, Wheel);
-    
+        console.log('Component included: ',RadialMenuComponent.name);
+        Vue.component(RadialMenuComponent.name, RadialMenuComponent);
     }
 };
