@@ -17,44 +17,6 @@
             />
         <div class="aaa">AAA</div>
 
-        <!-- <transition name='fade'>
-            <circular-menu v-if='pos' 
-                    :conf="conf"
-                    :pos="pos"
-            >
-            </circular-menu>
-        </transition> -->
-
-        
-
-        <!-- <transition name='fade'>
-            <wheel-menu v-if='pos' 
-                :ratio='ratio*0.9' 
-                :size='size*2' 
-                :btns="btnarray1" 
-                :rotated="rotated"
-                :position="pos"
-            />
-        </transition>
-        <transition name='fade'>
-            <wheel-menu v-if='pos' 
-                :ratio='ratio' 
-                :size='size' 
-                :btns="btnarray" 
-                :rotated="false"
-                :position="pos"
-            />
-        </transition> -->
-        <!-- <transition name='fade'>
-            <wheel-menu v-if='pos' 
-                :ratio='ratio' 
-                :size='size/1.8' 
-                :btns="btnarray1" 
-                :rotated="rotated"
-                :position="pos"
-            />
-        </transition> -->
-
     </div>
 
 </template>
@@ -138,134 +100,15 @@ export default {
                     // {height: 50, title:"Fire", icon: Icons.fire},
                 ]
             },
-            conf1:{
-                angle: 180,
-                aperture: 360,
-                radius: 110,
-                height: 75,
-                btns:[
-                    {title:"QR", icon: Icons.qr,
-                        btns:[
-                            {title:"Pen", icon: Icons.pen},
-                            {title:"DATA", icon: Icons.data},
-                            {title:"Bones", icon: Icons.bones},
-                            {title:"Sword",icon: Icons.sword},
-                        ]
-                    },
-                    {title:"Pen", icon: Icons.pen},
-                    {title:"Sword",icon: Icons.sword,
-                        btns:[
-                            {title:"Pen", icon: Icons.pen},
-                            {title:"DATA", icon: Icons.data},
-                            {title:"QR", icon: Icons.qr},
-                            {title:"Bones", icon: Icons.bones},
-                            {title:"Sword",icon: Icons.sword},
-                        ]
-                    },
-                    {title:"Bones", icon: Icons.bones,
-                        btns:[
-                            {title:"Pen", icon: Icons.pen},
-                            {title:"DATA", icon: Icons.data,},
-                        ]
-                    },
-                    {title:"DATA", icon: Icons.data,
-                        btns:[
-                            {title:"Pen", icon: Icons.pen,
-                                btns:[
-                                    {title:"Pen", icon: Icons.pen},
-                                    {title:"Sword",icon: Icons.sword},
-                                ]   
-                            },
-                            {title:"Sword",icon: Icons.sword},
-                        ]
-                    },
-                    {title:"Head Phones", icon: Icons.headphone,
-                        btns:[
-                            {title:"Pen", icon: Icons.pen},
-                            {title:"DATA", icon: Icons.data,
-                                btns:[
-                                    {title:"ZIP", icon: Icons.zip,
-                                        btns:[
-                                            {title:"Pen", icon: Icons.pen},
-                                            {title:"Sword",icon: Icons.sword},
-                                        ]  
-                                    },
-                                    {title:"DATA", icon: Icons.data},
-                                    {title:"QR", icon: Icons.qr},
-                                    {title:"Bones", icon: Icons.bones},
-                                ]
-                            },
-                        ]
-                    },
-                    {title:"ZIP", icon: Icons.zip},
-                ]
-            },
 
-            // size:120,
-            // size:180,
-            // size:200,
-            // size:240,
-            // size:360,
-            size:400,
-            // size:800,
-            // size:1200,
-            // size:1600, 
-                       
-            // ratio:5,  
-            // ratio:80,  
-            // ratio:75,  
-            // ratio:70,  
-            // ratio:60,  
-            // ratio:50,  
+ 
+            size:400,  
             ratio:40,  
-            // rotated:false,
             rotated:true,
 
             pos: {x:0, y:0},
             visible:false,
             title:'myCanvas',
-            btnarray:[
-            [
-                {title:"DATA", icon: Icons.data},
-                {title:"Pen", icon: Icons.pen},
-                {title:"QR", icon: Icons.qr},
-                {title:"Bones", icon: Icons.bones},
-                {title:"Sword",icon: Icons.sword},
-                {title:"Head Phones", icon: Icons.headphone},
-                {title:"ZIP", icon: Icons.zip},
-                {title:"Hex", icon: Icons.hex},
-                {title:"Fire", icon: Icons.fire},
-            ],
-            ],
-            btnarray2:[
-            [
-                {title:"ZIP", icon: Icons.zip},
-                {title:"DATA", icon: Icons.data},
-                {title:"Pen", icon: Icons.pen},
-                {title:"QR", icon: Icons.qr},
-                {title:"ZIP", icon: Icons.zip},
-                {title:"DATA", icon: Icons.data},
-            ],
-            [
-                {title:"ZIP", icon: Icons.zip},
-                {title:"DATA", icon: Icons.data},
-                {title:"Pen", icon: Icons.pen},
-                {title:"QR", icon: Icons.qr},
-                {title:"Bones", icon: Icons.bones},
-                {title:"Head Phones", icon: Icons.headphone},
-                {title:"Sword",icon: Icons.sword},
-                {title:"Fire", icon: Icons.fire},
-                {title:"Hex", icon: Icons.hex},
-            ],
-            [
-                {title:"ZIP", icon: Icons.zip},
-                {title:"DATA", icon: Icons.data},
-                {title:"Pen", icon: Icons.pen},
-                {title:"QR", icon: Icons.qr},
-                {title:"ZIP", icon: Icons.zip},
-                {title:"DATA", icon: Icons.data},
-            ],
-            ]
         }
 
     },
@@ -278,7 +121,7 @@ export default {
             // this.pos = undefined;
             // this.pos = {x:0, y:0};
             this.visible = false;
-            console.log(e);
+            // console.log(e);
             // console.log(e.pageX);
             // console.log(e.layerX);
             setTimeout(()=>{ 

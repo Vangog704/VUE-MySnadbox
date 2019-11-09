@@ -2,16 +2,13 @@
 
         <div class="main" :style="mainStyle()">
             <transition name='fade'>
-                <div class="wrapper" v-if='visible' >
-                    <transition name='textframe'>
-                        <div class="text-wraper" v-if='!!text'>
-                            <div class="text">
-                                <div>
-                                    <p>{{text}}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </transition>
+                <div class="wrapper" v-show='visible' >
+
+                    <text-component 
+                        :title="text"
+                        :size="menushape[0].inrad*1.7"
+                    />
+
                     <svg class="svg-main" 
                         :viewBox="boxToSvgPath(box)"
                         :style="transformStyle()"
@@ -37,12 +34,14 @@
 import Victor from "victor";
 import CircularMenuBuilder from "./circular-menu-builder";
 import ButtonsGroup from "./RadialMenuComponentButtonGroup.vue";
+import TextComponent from "./TextComponent.vue";
 
 export default {
     name: "radial-menu",
 
     components: {
         "button-group":ButtonsGroup,
+        "text-component":TextComponent,
     },
     props: {
         conf: Object,
@@ -50,26 +49,24 @@ export default {
         visible:Boolean,
     },
     data() {
-        let shape = this.shape();
-        let svgbox = this.mainViewBox(shape);
+        let menushape = this.shape();
+        let box = this.mainViewBox(menushape);
 
         return {
-            box: svgbox,
-            menushape: shape,
+            box,
+            menushape,
             transformParam: null,
             text: null,
         };
     },
-    mounted: function() {
-
-    },
     methods: {
+
         setText(text){
             this.text = text;
-            console.log('settext',text);
         },
+
         rotate(vector){
-            if(vector != null){
+            if(vector){
                 this.transformParam = {
                     rotate:vector,
                     move:vector,
@@ -93,22 +90,22 @@ export default {
         },
 
         transformStyle(){
-            return this.transformParam != null 
-                ?   ` transform: `+this.rotateStyle(this.transformParam)+` `+this.translateStyle(this.transformParam)
-                :   ``;
+            return this.transformParam 
+                    ? ` transform: ${this.rotateStyle(this.transformParam)} ${this.translateStyle(this.transformParam)}; `
+                    : ``;
         },
 
         rotateStyle(t){
-            return t.rotate != null
-                ?   (t.rotate.x != 0 ? ` rotateX(${t.rotate.y}deg) ` : ``)+
-                    (t.rotate.y != 0 ? ` rotateY(${-t.rotate.x}deg) ` : ``) 
-                :   ``;
+            return t.rotate
+                    ? (t.rotate.x != 0 ? ` rotateX(${t.rotate.y}deg) ` : ``)+
+                      (t.rotate.y != 0 ? ` rotateY(${-t.rotate.x}deg) ` : ``) 
+                    : ``;
         },
 
         translateStyle(t){
-            return t.move != null
-                ?   ` translate(${-t.move.x}px, ${-t.move.y}px);`
-                :   ``;
+            return t.move
+                    ? ` translate(${-t.move.x}px, ${-t.move.y}px);`
+                    : ``;
         },
 
         //TODO move to utility funcs
@@ -126,17 +123,20 @@ export default {
 
         _maxRadius(btns){
             let cmax,max = 0;
-            for (let i = 0; i < btns.length; i++){
-                if(btns[i].children != null)
-                    max = max > (cmax = this._maxRadius(btns[i].children)) ? max : cmax;
+            for (let btn of btns){
+                if(btn.children != null)
+                    max = max > (cmax = this._maxRadius(btn.children)) ? max : cmax;
                 else 
-                    max = (max < btns[i].radius ? btns[i].radius : max);
+                    max = (max < btn.radius ? btn.radius : max);
             }
             return max;
         },
     },
     computed: {
         
+    },
+    mounted: function() {
+
     },
 };
 </script>
@@ -145,12 +145,6 @@ export default {
 
 <style lang="scss" subtract>
 @import "./../colorScheme.scss";
-
-    .test{
-        width: 0px;
-        height: 0px;
-    }
-
 
     .main{
         visibility: hidden;
@@ -162,49 +156,6 @@ export default {
         transform-origin: center center;
         width: inherit;
         height: inherit;
-        // transform: rotateX(30deg) rotateY(30deg);
-        // top: 0px;
-        // left: 0px;
-    }
-
-    .text-wraper{
-        position: absolute;
-        visibility: visible;
-        width: 100%;
-        height: 100%;
-    }
-
-    .text{
-        text-shadow: 0 0 1em $light-shadow;
-        color: white;
-        font-weight: bold;
-        font-size: 1.2em;
-        height: inherit;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        
-        div{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-            text-align: center;
-            margin: 0;
-            width: 25%;
-            height: 25%;
-            border-radius: 50%;
-            border: 5px solid $light-shadow;
-            box-shadow: 0 0 4em $light-shadow;
-            background-color: rgba($light-shadow, .4);
-            // transform: scale(.5);
-            opacity: 1;
-            &:hover{
-                // background-color: rgba(white, .5);
-            }
-            p{
-                margin: 0;
-            }
-        }
     }
 
     .svg-main{
@@ -212,18 +163,16 @@ export default {
         transition-duration: .4s;
         transition-property: transform;
         position:absolute;
-        // filter: url('#disturbtion');
         filter: blur(.4px);
     }
-
+    
     .fade-enter-active, .fade-leave-active {
-        transition: all .2s ease-in-out;
+        transition: all .1s ease-in;
     }
 
     .fade-enter, .fade-leave-to {
-        opacity: 0;
+        opacity: .1;
         transform: scale(.1);
-        // transform: scale(.1) rotateZ(90deg);
     }
 
 </style>

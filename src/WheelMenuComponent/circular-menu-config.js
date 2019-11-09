@@ -23,7 +23,7 @@ function calcArcShape(btnconfig) {
 
 	// Points to svg-path string
 	const path = pointsToArcPathStr(ps, inrad, outrad);
-	const path_r = pointsToRoundedArcPathStr(roundedEdgesToArcShape(ps, btnconfig.aperture), inrad, outrad);
+	const path_r = pointsToRoundedArcPathStr(roundedEdgesToArcShape(ps, btnconfig.aperture, outrad), inrad, outrad);
 
 	const iconsize = calcIconSize(center, btnconfig.aperture, btnconfig.height);
 
@@ -34,6 +34,7 @@ function calcArcShape(btnconfig) {
 		icon: btnconfig.icon,
 		angle: btnconfig.angle,
 		radius: btnconfig.radius,
+		inrad,
 		iconpos: center,
 		iconsize: iconsize,
 		title: btnconfig.title
@@ -59,7 +60,7 @@ function addGapsToArcs(ps) {
 	ps[2].subtract(ver_gap).add(hor_gap_1_2);
 }
 
-function roundedEdgesToArcShape(ps, aperture) {
+function roundedEdgesToArcShape(ps, aperture, inrad) {
 	let ps_r = [];
 
 	// o - out; i - in; p - point;  
@@ -109,27 +110,27 @@ function calcIconSize(center, aperture, height) {
 }
 
 function pointsToArcPathStr(ps, inrad, outrad) {
-	return (
-		` M ${ps[0].x} ${ps[0].y} ` +
-		` A ${outrad} ${outrad} 0 0 1 ${ps[1].x} ${ps[1].y} ` +
-		` L ${ps[2].x} ${ps[2].y} ` +
-		` A ${inrad} ${inrad} 1 0 0  ${ps[3].x} ${ps[3].y} ` +
-		` z `
-	);
+	return ` 
+		M ${ps[0].x} ${ps[0].y} 
+		A ${outrad} ${outrad} 0 0 1 ${ps[1].x} ${ps[1].y} 
+		L ${ps[2].x} ${ps[2].y} 
+		A ${inrad} ${inrad} 1 0 0  ${ps[3].x} ${ps[3].y} 
+		z 
+	`;
 }
 
 function pointsToRoundedArcPathStr(ps_r, inrad, outrad) {
-	return (
-		` M ${ps_r[0].x},  ${ps_r[0].y}` +
-		` C ${ps_r[1].x},  ${ps_r[1].y}  ${ps_r[2].x},  ${ps_r[2].y} ${ps_r[3].x},  ${ps_r[3].y}` +
-		` A ${outrad} ${outrad} 0 0 1 ${ps_r[4].x},  ${ps_r[4].y}` +
-		` C ${ps_r[5].x},  ${ps_r[5].y}  ${ps_r[6].x},  ${ps_r[6].y} ${ps_r[7].x},  ${ps_r[7].y}` +
-		` L ${ps_r[8].x},  ${ps_r[8].y}` +
-		` C ${ps_r[9].x},  ${ps_r[9].y}  ${ps_r[10].x},  ${ps_r[10].y} ${ps_r[11].x},  ${ps_r[11].y}` +
-		` A ${inrad} ${inrad} 1 0 0 ${ps_r[12].x},  ${ps_r[12].y}` +
-		` C ${ps_r[13].x},  ${ps_r[13].y}  ${ps_r[14].x},  ${ps_r[14].y} ${ps_r[15].x},  ${ps_r[15].y}` +
-		` z `
-	);
+	return ` 
+		M ${ps_r[0].x},  ${ps_r[0].y}
+		C ${ps_r[1].x},  ${ps_r[1].y}  ${ps_r[2].x},  ${ps_r[2].y} ${ps_r[3].x},  ${ps_r[3].y} 
+		A ${outrad} ${outrad} 0 0 1 ${ps_r[4].x},  ${ps_r[4].y}
+		C ${ps_r[5].x},  ${ps_r[5].y}  ${ps_r[6].x},  ${ps_r[6].y} ${ps_r[7].x},  ${ps_r[7].y}
+		L ${ps_r[8].x},  ${ps_r[8].y}
+		C ${ps_r[9].x},  ${ps_r[9].y}  ${ps_r[10].x},  ${ps_r[10].y} ${ps_r[11].x},  ${ps_r[11].y}
+		A ${inrad} ${inrad} 1 0 0 ${ps_r[12].x},  ${ps_r[12].y}
+		C ${ps_r[13].x},  ${ps_r[13].y}  ${ps_r[14].x},  ${ps_r[14].y} ${ps_r[15].x},  ${ps_r[15].y}
+		z 
+	`;
 }
 
 export default {

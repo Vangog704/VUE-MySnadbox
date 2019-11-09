@@ -1,11 +1,6 @@
 <template>
     <g>
-        <defs>
-            <filter id="disturbtion">
-            <feTurbulence type="fractalNoise" baseFrequency="0.01 0.01" numOctaves="1" result="warp" />
-            <feDisplacementMap xChannelSelector="R" yChannelSelector="G" scale="30" in="SourceGraphic" in2="warp" />
-            </filter>
-        </defs>
+
         <g class="button-group"
             v-for="(btn,id) in shape()"
             :key="id"
@@ -59,9 +54,6 @@ import CircularMenuBuilder from "./circular-menu-builder";
 export default {
     name: "button-group",
 
-    components: {
-
-    },
     props: {
         buttons: Array,
         box: Object,
@@ -125,7 +117,7 @@ export default {
     .arc-svg{
         overflow: visible;
         fill: rgba($main-color, 1);
-        stroke: gray;
+        stroke: $light-shadow;
         stroke-width: 1px;
 
         transition-duration: 0s, .3s;

@@ -9,7 +9,7 @@ export default class CircularMenuBuilder {
 		this._defAperture = 5;
 
 		let maxBtnCount = conf.aperture / this._defAperture;
-		let btns = (conf.btns != null ? conf.btns : []);
+		let btns = conf.btns || [];
 		this._btnCount = (btns.length > maxBtnCount ? maxBtnCount : btns.length);
 	}
 
@@ -22,7 +22,7 @@ export default class CircularMenuBuilder {
 		//TODO consider move somewhere
 		for (let i in this._conf.btns) {
 			this._res[i] = calc.calcArcShape(this._conf.btns[i]);
-			if (this._conf.btns[i].btns != null) {
+			if (this._conf.btns[i].btns) {
 				this._res[i].children = new CircularMenuBuilder(this._conf.btns[i]).build();
 			}
 			this._res[i].id = i;
@@ -46,7 +46,7 @@ export default class CircularMenuBuilder {
 			//TODO make height edges
 		}
 		for (let i in btns) {
-			btns[i].inrad = (conf.radius != null ? conf.radius : 30);
+			btns[i].inrad = conf.radius || 30;
 			btns[i].radius = btns[i].inrad + btns[i].height;
 		}
 
@@ -59,12 +59,12 @@ export default class CircularMenuBuilder {
 		let btns = conf.btns;
 		let defAperture = this._defAperture;
 
-		conf.aperture = (conf.aperture > 360 ? 360 : conf.aperture);
+		conf.aperture = conf.aperture > 360 ? 360 : conf.aperture;
 
 		let customAperturaSum = 0;
 		let withNoApertureNumber = this._btnCount;
 		for (let i = 0; i < this._btnCount; i++) {
-			if (btns[i].aperture != null && btns[i].aperture > defAperture) {
+			if (btns[i].aperture && btns[i].aperture > defAperture) {
 				customAperturaSum += btns[i].aperture;
 				withNoApertureNumber--;
 			} else {
@@ -82,7 +82,7 @@ export default class CircularMenuBuilder {
 	}
 
 	_specifyAperture2() {
-		this._conf.aperture = (this._conf.aperture > 360 ? 360 : this._conf.aperture);
+		this._conf.aperture = this._conf.aperture > 360 ? 360 : this._conf.aperture;
 		let btns = this._conf.btns; //?
 		let baseAperture = this._conf.aperture;
 
@@ -90,7 +90,7 @@ export default class CircularMenuBuilder {
 		let minAp = 100/360 * minDeg;
 		let sum;
 		for (let i in btns){
-			if(btns[i].aperture == null) btns[i].aperture = minAp;
+			btns[i].aperture = btns[i].aperture || minAp;
 			if (btns[i].aperture > 50) btns[i].aperture = 50;
 		}	
 		sum = 0;
@@ -113,8 +113,8 @@ export default class CircularMenuBuilder {
 	_specifyAngles() {
 		//TODO rework algorithm 
 		let conf = this._conf;
-		let btns = (conf.btns == null ? [] : conf.btns);
-		let angle = (conf.angle == null ? 0 : conf.angle);
+		let btns = conf.btns || [];
+		let angle = conf.angle || 0;
 		angle -= conf.aperture/2;
 		for (let i in btns) {
 			angle += btns[i].aperture/2;
