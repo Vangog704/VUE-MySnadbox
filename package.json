@@ -6,7 +6,8 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "build": "vue-cli-service build --target app",
+    "build": "vue-cli-service build",
+    "start": "vue-cli-service serve",
     "build-lib": "vue-cli-service build --target lib --name radial-menu-component src/WheelMenuComponent/RadialMenuComponent.vue",
     "run-dev": "vue-cli-service serve --open",
     "build-wc": "vue-cli-service build --target wc --name radial-menu-component --css true src/WheelMenuComponent/RadialMenuComponent.vue",
@@ -19,14 +20,8 @@
     "build:components": "npm run clear:components && npm run compile:components && npm run copy:components"
   },
   "dependencies": {
+    "@vue/cli": "^4.0.5",
     "@vue/cli-service": "^4.0.5",
-    "babel-core": "^6.26.0",
-    "babel-loader": "^7.1.2",
-    "babel-preset-env": "^1.6.0",
-    "babel-preset-stage-3": "^6.24.1",
-    "bili": "^4.8.1",
-    "cross-env": "^5.2.1",
-    "css-loader": "^0.28.11",
     "sass-loader": "^8.0.0",
     "style-loader": "^1.0.0",
     "victor": "^1.1.0",
