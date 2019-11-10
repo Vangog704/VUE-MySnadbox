@@ -19,18 +19,19 @@
     "build:components": "npm run clear:components && npm run compile:components && npm run copy:components"
   },
   "dependencies": {
-    "victor": "^1.1.0",
-    "vue-style-loader": "^4.1.2",
-    "vue-template-compiler": "^2.6.10",
-    "sass-loader": "^8.0.0",
-    "style-loader": "^1.0.0",
+    "@vue/cli": "^4.0.5",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-preset-env": "^1.6.0",
     "babel-preset-stage-3": "^6.24.1",
     "bili": "^4.8.1",
     "cross-env": "^5.2.1",
-    "css-loader": "^0.28.11"
+    "css-loader": "^0.28.11",
+    "sass-loader": "^8.0.0",
+    "style-loader": "^1.0.0",
+    "victor": "^1.1.0",
+    "vue-style-loader": "^4.1.2",
+    "vue-template-compiler": "^2.6.10"
   },
   "browserslist": [
     "> 1%",
