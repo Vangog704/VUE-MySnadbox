@@ -19,7 +19,7 @@
     "build:components": "npm run clear:components && npm run compile:components && npm run copy:components"
   },
   "dependencies": {
-    "@vue/cli": "^4.0.5",
+    "@vue/cli-service": "^4.0.5",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-preset-env": "^1.6.0",
