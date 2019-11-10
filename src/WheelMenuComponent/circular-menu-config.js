@@ -35,6 +35,8 @@ function calcArcShape(btnconfig) {
 		angle: btnconfig.angle,
 		radius: btnconfig.radius,
 		inrad,
+		action: btnconfig.action,
+		path: btnconfig.path,
 		iconpos: center,
 		iconsize: iconsize,
 		title: btnconfig.title

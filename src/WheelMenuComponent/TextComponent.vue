@@ -1,20 +1,19 @@
 <template>
     
-    <div class="text-wraper" >
+    <div class="text-wraper">
         <defs>
-            <filter id="disturbtion">
-            <feTurbulence type="fractalNoise" baseFrequency="0 .18" numOctaves="1" result="warp" />
-            <feDisplacementMap xChannelSelector="R" yChannelSelector="G" scale="30" in="SourceGraphic" in2="warp" />
+            <filter id="glitch">
+            <feTurbulence type="fractalNoise" baseFrequency="0 .17" numOctaves="1" result="warp" />
+            <feDisplacementMap xChannelSelector="R" yChannelSelector="G" scale="20" in="SourceGraphic" in2="warp" />
             </filter>
         </defs>
-        <transition name='textframe'>
-            <div class="text" v-if='setText'>
-                <div :style="textWrapperSize()">
-                    <p>{{text}}</p>
+        <transition name='textframe' >
+            <div class="text" v-if='isVisible'>
+                <div :style="textWrapperStyle()">
+                    <p>{{titleText || ''}}</p>
                 </div>
             </div>
         </transition>
-
     </div>
 
 </template>
@@ -30,28 +29,28 @@ export default {
     name: "radial-menu-text",
 
     props: {
-        title:String,
-        size:Number
+        titleText:String,
+        size:Number,
     },
     data() {
-        return {            
-            text: null,
+
+        return {       
+            titleVisible:false,
         };
     },
     methods: {
 
         lag(){
             //TODO fix this
-            let t = this.text;
-            this.text = undefined;
+            this.titleVisible = false;
 
             setTimeout(()=>{
-                this.text = t;
-                setTimeout(()=>{ this.lag(); }, 5000);
-            }, 100);
+                this.titleVisible = true;
+                setTimeout(()=>{ this.lag(); }, Math.floor(Math.random() * 10)*1000);
+            }, 150);
         },
 
-        textWrapperSize(){
+        textWrapperStyle(){
             return `
                 width: ${this.size}px;
                 height: ${this.size}px;
@@ -59,9 +58,8 @@ export default {
         },
     },
     computed: {
-        setText(){
-            this.text = this.title;
-            return this.text;
+        isVisible(){
+            return this.titleVisible && this.titleText;
         },
     },
     mounted: function() {
@@ -99,10 +97,10 @@ export default {
             text-align: center;
             margin: 0;
             border-radius: 50%;
-            border: 5px solid $light-shadow;
+            border: 6px solid $light-shadow;
             box-shadow: 0 0 4em $light-shadow;
             background-color: rgba($light-shadow, .4);
-            opacity: 1;
+            // opacity: 1;
             p{
                 margin: 0;
             }
@@ -113,8 +111,8 @@ export default {
         transition: all .2s ease-in;
     }
     .textframe-leave-to {
+        filter: url('#glitch');
         opacity: 0;
-        filter: url('#disturbtion');
     }
 
 </style>

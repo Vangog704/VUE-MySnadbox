@@ -2,10 +2,10 @@
 
         <div class="main" :style="mainStyle()">
             <transition name='fade'>
-                <div class="wrapper" v-show='visible' >
+                <div class="wrapper" v-show='visible'>
 
                     <text-component 
-                        :title="text"
+                        :titleText="text"
                         :size="menushape[0].inrad*1.7"
                     />
 
@@ -55,7 +55,7 @@ export default {
         return {
             box,
             menushape,
-            transformParam: null,
+            shiftVector: new Victor(0,0),
             text: null,
         };
     },
@@ -66,14 +66,7 @@ export default {
         },
 
         rotate(vector){
-            if(vector){
-                this.transformParam = {
-                    rotate:vector,
-                    move:vector,
-                }
-            }else{
-                this.transformParam = null;
-            }
+            this.shiftVector = vector || new Victor(0,0);
         },
 
         shape(){
@@ -90,21 +83,21 @@ export default {
         },
 
         transformStyle(){
-            return this.transformParam 
-                    ? ` transform: ${this.rotateStyle(this.transformParam)} ${this.translateStyle(this.transformParam)}; `
+            return this.shiftVector 
+                    ? ` transform: ${this.rotateStyle(this.shiftVector)} ${this.translateStyle(this.shiftVector)}; `
                     : ``;
         },
 
-        rotateStyle(t){
-            return t.rotate
-                    ? (t.rotate.x != 0 ? ` rotateX(${t.rotate.y}deg) ` : ``)+
-                      (t.rotate.y != 0 ? ` rotateY(${-t.rotate.x}deg) ` : ``) 
+        rotateStyle(vec){
+            return vec
+                    ? (vec.x != 0 ? ` rotateX(${vec.y}deg) ` : ``)+
+                      (vec.y != 0 ? ` rotateY(${-vec.x}deg) ` : ``) 
                     : ``;
         },
 
-        translateStyle(t){
-            return t.move
-                    ? ` translate(${-t.move.x}px, ${-t.move.y}px);`
+        translateStyle(vec){
+            return vec
+                    ? ` translate(${-vec.x}px, ${-vec.y}px); `
                     : ``;
         },
 
@@ -145,6 +138,10 @@ export default {
 
 <style lang="scss" subtract>
 @import "./../colorScheme.scss";
+
+    body{
+        margin: 0;
+    } 
 
     .main{
         visibility: hidden;

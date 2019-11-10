@@ -17,8 +17,15 @@ let project = {
         use: [
           'vue-style-loader',
           'css-loader',
-          'sass-loader',
-          'style-loader'
+          // 'style-loader',
+        {
+          loader:'sass-loader',
+          options: {
+            data: `
+              @import "@/variables.scss";
+            `
+          }
+        }
         ],
       },      
       {

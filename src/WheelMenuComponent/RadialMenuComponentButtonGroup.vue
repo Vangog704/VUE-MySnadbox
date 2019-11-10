@@ -1,7 +1,7 @@
 <template>
-    <g>
+    <g class="main">
 
-        <g class="button-group"
+        <g :class="`button-group ${strokeClass}`"
             v-for="(btn,id) in shape()"
             :key="id"
         >
@@ -10,7 +10,10 @@
                     @mouseout="emitDefault($event, btn)"
                     @contextmenu="emitDefault($event, btn)"
                 >
-                <a :href="`/${id}`">
+                <a class="link"
+                    :href="`${btn.path || ''}`" 
+                    @click="redirect($event,btn)"
+                >
                     <!-- arc  -->
                     <svg class="arc-svg">
                         <path class="arc-path"
@@ -60,11 +63,21 @@ export default {
     },
     data() {
         return {
-
+            strokeClass: '',
         };
     },
     methods: {
-        
+
+        redirect(e,btn){ 
+            if(btn.action && typeof btn.action === 'function') {
+                // e.stopPropagation();
+                e.preventDefault();
+                return btn.action();
+            }
+            console.log('redirect', btn.path);
+            return btn.path != null;
+        },
+
         shape(){
             return this.buttons;
         },
@@ -81,6 +94,7 @@ export default {
         buttonOverHandler(event, btn){
             this.emitRotatation(event, btn);
             this.emitText(btn.title);
+            this.strokeClass = "active-menu";
         },
 
         emitText(text){
@@ -94,6 +108,7 @@ export default {
         emitDefault(event, btn){
             this.$emit('rotate');
             this.$emit('setText');
+            this.strokeClass = "";
         },
 
         transferRotatation(vector){
@@ -114,10 +129,16 @@ export default {
 <style lang="scss" subtract>
 @import "./../colorScheme.scss";
 
+    .active-menu{
+        .arc-svg{
+            stroke: $light-shadow;
+        }
+    }
+
     .arc-svg{
         overflow: visible;
         fill: rgba($main-color, 1);
-        stroke: $light-shadow;
+        stroke: $main-color;
         stroke-width: 1px;
 
         transition-duration: 0s, .3s;
@@ -144,8 +165,20 @@ export default {
 
     .button{
         // transition-duration: .5s, .1s;
-        // transition-property: stroke, fill;
+        // transition-property: stroke, fill;   
+        &:hover>.link:active{
+            .arc-svg{
+                transition-duration: 0s, 0s;
+                transition-property: stroke, fill;
+                stroke:$light-shadow;
+                fill: $light-shadow;
+            } 
+            .icon{
+                fill: limegreen; 
+            }
+        }  
         &:hover{
+
             &:hover + g{
                 .arc-svg{
                     fill: rgba($light-shadow, .5);
