@@ -5,13 +5,13 @@
             v-for="(btn,id) in shape()"
             :key="id"
         >
-                <g class="button"
-                    @mouseover="buttonOverHandler($event, btn)"
-                    @mouseout="emitDefault($event, btn)"
-                    @contextmenu="emitDefault($event, btn)"
-                >
+            <g class="button"
+                @mouseover="buttonOverHandler($event, btn)"
+                @mouseout="emitDefault($event, btn)"
+                @contextmenu="emitDefault($event, btn)"
+            >
                 <a class="link"
-                    :href="`${btn.path || ''}`" 
+                    :href="`${btn.path | ''}`" 
                     @click="redirect($event,btn)"
                 >
                     <!-- arc  -->
@@ -37,7 +37,7 @@
                         />
                     </svg>
                 </a>
-                </g>
+            </g>
             <button-group 
                 @setText="emitText"
                 @rotate="transferRotatation($event)"
@@ -68,14 +68,13 @@ export default {
     },
     methods: {
 
+        //TODO reworck method
         redirect(e,btn){ 
             if(btn.action && typeof btn.action === 'function') {
-                // e.stopPropagation();
-                e.preventDefault();
-                return btn.action();
+                e.stopPropagation(); // menu dont hide
+                if(!btn.action()) e.preventDefault(); // redirect off
+                console.log("redirect",btn.path);
             }
-            console.log('redirect', btn.path);
-            return btn.path != null;
         },
 
         shape(){
@@ -178,7 +177,6 @@ export default {
             }
         }  
         &:hover{
-
             &:hover + g{
                 .arc-svg{
                     fill: rgba($light-shadow, .5);

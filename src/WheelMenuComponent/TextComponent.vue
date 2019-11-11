@@ -41,12 +41,10 @@ export default {
     methods: {
 
         lag(){
-            //TODO fix this
             this.titleVisible = false;
-
             setTimeout(()=>{
                 this.titleVisible = true;
-                setTimeout(()=>{ this.lag(); }, Math.floor(Math.random() * 10)*1000);
+                setTimeout(()=>{ this.lag(); }, Math.floor(Math.random() * 10)*500);
             }, 150);
         },
 
@@ -75,12 +73,13 @@ export default {
 
     .text-wraper{
         position: absolute;
-        visibility: visible;
+        visibility: hidden;
         width: 100%;
         height: 100%;
     }
 
     .text{
+        visibility: visible;
         text-shadow: 0 0 1em $light-shadow;
         color: mix($light-shadow,white);
         font-weight: bold;
@@ -102,6 +101,7 @@ export default {
             background-color: rgba($light-shadow, .4);
             // opacity: 1;
             p{
+                user-select: none;
                 margin: 0;
             }
         }

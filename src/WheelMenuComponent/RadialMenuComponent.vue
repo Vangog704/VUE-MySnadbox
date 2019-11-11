@@ -70,6 +70,7 @@ export default {
         },
 
         shape(){
+            console.log("BUILD RADIAL-MENU");
             return new CircularMenuBuilder(Object.assign({},this.conf)).build();
         },
 
