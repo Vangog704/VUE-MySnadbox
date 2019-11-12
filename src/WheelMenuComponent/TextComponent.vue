@@ -80,8 +80,7 @@ export default {
 
     .text{
         visibility: visible;
-        text-shadow: 0 0 1em $light-shadow;
-        color: mix($light-shadow,white);
+        color: var(--text-color);
         font-weight: bold;
         font-size: 1.2em;
         height: inherit;
@@ -96,10 +95,9 @@ export default {
             text-align: center;
             margin: 0;
             border-radius: 50%;
-            border: 6px solid $light-shadow;
-            box-shadow: 0 0 4em $light-shadow;
-            background-color: rgba($light-shadow, .4);
-            // opacity: 1;
+            border: 6px solid var(--text-bg-stroke-color);
+            box-shadow: 0 0 3em var(--text-bg-stroke-color);
+            background-color: var(--text-bg-color);
             p{
                 user-select: none;
                 margin: 0;

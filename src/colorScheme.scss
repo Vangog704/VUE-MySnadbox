@@ -96,12 +96,12 @@
 // $selected-shodow: gold;
 
 // //Black white blue
-$main-color: #000000 !default;
-$extra-color: #ffffff !default;
-$icon-color: #28fff4 !default;
-$dark-shadow: #181818 !default;
-$light-shadow: #28fff4 !default;
-$selected-shodow: rgb(94, 255, 242);
+// $main-color: #000000 !default;
+// $extra-color: #ffffff !default;
+// $icon-color: #28fff4 !default;
+// $dark-shadow: #181818 !default;
+// $light-shadow: #28fff4 !default;
+// $selected-shodow: rgb(94, 255, 242);
 
 // Black white green
 // $main-color: #000000;
@@ -110,3 +110,24 @@ $selected-shodow: rgb(94, 255, 242);
 // $dark-shadow: #181818;
 // $light-shadow: #9fff79;
 // $selected-shodow: rgb(116, 223, 116);
+
+.radial-menu-main{
+    --btn-color: rgb(0, 0, 0);
+    --btn-stroke-color: var(--btn-color);
+    --sel--btn-color: rgba(40, 255, 244, .8);
+    --sel--btn-stroke-color: rgb(40, 255, 244);
+    --act--btn-color: var(--text-bg-color);
+    --act--btn-stroke-color: var(--btn-color);
+    
+    --text-color: rgb(147, 255, 250);
+    --text-bg-color: rgba(40, 255, 244, .5);
+    --text-bg-stroke-color: var(--sel--btn-stroke-color);
+    
+    --icon-color: var(--sel--btn-stroke-color);
+    --sel--icon-color: var(--sel--btn-stroke-color);
+    --act--icon-color: var(--sel--btn-stroke-color);
+    --icon-circle-color: var(--btn-color);
+    --icon-circle-stroke-color: var(--btn-color);
+    --sel--icon-circle-color: var(--btn-color);
+    --sel--icon-circle-stroke-color: var(--sel--btn-stroke-color);
+}

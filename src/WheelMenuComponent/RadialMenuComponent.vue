@@ -1,6 +1,6 @@
 <template>
 
-        <div class="main" :style="mainStyle()">
+        <div class="radial-menu-main" :style="mainStyle()">
             <transition name='fade'>
                 <div class="wrapper" v-show='visible'>
 
@@ -144,7 +144,7 @@ export default {
         margin: 0;
     } 
 
-    .main{
+    .radial-menu-main{
         visibility: hidden;
         position: absolute;
     }

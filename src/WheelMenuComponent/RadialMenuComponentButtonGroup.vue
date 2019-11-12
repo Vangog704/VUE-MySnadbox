@@ -13,6 +13,7 @@
                 <a class="link"
                     :href="`${btn.path | ''}`" 
                     @click="redirect($event,btn)"
+                    @contextmenu.prevent="contextMenu($event,btn)"
                 >
                     <!-- arc  -->
                     <svg class="arc-svg">
@@ -69,12 +70,17 @@ export default {
     methods: {
 
         //TODO reworck method
-        redirect(e,btn){ 
+        redirect(e,btn){
             if(btn.action && typeof btn.action === 'function') {
                 e.stopPropagation(); // menu dont hide
                 if(!btn.action()) e.preventDefault(); // redirect off
                 console.log("redirect",btn.path);
             }
+        },
+
+        contextMenu(e, btn){
+            //TODO add action callbacks
+            e.stopPropagation(); // menu dont hide
         },
 
         shape(){
@@ -130,14 +136,14 @@ export default {
 
     .active-menu{
         .arc-svg{
-            stroke: $light-shadow;
+            stroke: var(--act--btn-stroke-color); 
         }
     }
 
     .arc-svg{
         overflow: visible;
-        fill: rgba($main-color, 1);
-        stroke: $main-color;
+        fill: var(--btn-color);
+        stroke: var(--btn-stroke-color);
         stroke-width: 1px;
 
         transition-duration: 0s, .3s;
@@ -147,15 +153,15 @@ export default {
     .icon{
         pointer-events: none;
         overflow: visible;
-        stroke: $main-color;
         stroke-width: 0px;
-        fill: $icon-color;
+        fill: var(--icon-color);
+        stroke: var(--icon-color); 
     }
     .circle{
         pointer-events: none;
-        fill: rgba($main-color, 1);
-        stroke: $main-color;
         stroke-width: 1px;
+        fill: var(--icon-circle-color);
+        stroke: var(--icon-circle-stroke-color);    
     }
 
     .button-group{
@@ -169,8 +175,8 @@ export default {
             .arc-svg{
                 transition-duration: 0s, 0s;
                 transition-property: stroke, fill;
-                stroke:$light-shadow;
-                fill: $light-shadow;
+                fill: var(--sel--btn-stroke-color);
+                stroke: var(--sel--btn-stroke-color);
             } 
             .icon{
                 fill: limegreen; 
@@ -179,27 +185,28 @@ export default {
         &:hover{
             &:hover + g{
                 .arc-svg{
-                    fill: rgba($light-shadow, .5);
                     stroke-width: 3px;
-                    stroke: $main-color;
+                    fill: var(--act--btn-color);
+                    stroke: var(--act--btn-stroke-color);
                 }
                 .icon{
-                    fill: $selected-shodow;
-                    stroke: $light-shadow; 
+                    fill: var(--act--icon-color);
+                    stroke: var(--act--icon-color); 
                 }
             }
             .arc-svg{
-                fill: rgba($light-shadow, .8);
                 stroke-width: 6px;
-                stroke: $light-shadow;
+                fill: var(--sel--btn-color);
+                stroke: var(--sel--btn-stroke-color);
             }
             .icon{
-                fill: $selected-shodow;
-                stroke: $light-shadow; 
+                fill: var(--sel--icon-color);
+                stroke: var(--sel--icon-color); 
             }
             .circle{
                 stroke-width: 2px;
-                stroke: $light-shadow;
+                fill: var(--sel--icon-circle-color);
+                stroke: var(--sel--icon-circle-stroke-color);
             }
         }
     }
