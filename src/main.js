@@ -1,9 +1,9 @@
 import Vue from 'vue'
-// import RadialMenu from './WheelMenuComponent/RadialMenuComponent.vue'
+import RadialMenu from './WheelMenuComponent/RadialMenuComponent.vue'
 import WheelMenu from './Wheel-Menu.vue'
 // import RadialMenu from 'vue-wheel-menu-component/wheelmenu'
 // import RadialMenu from "./WheelMenuComponent/index.js"
-import RadialMenu from "../dist/radial-menu-component.common.js"
+// import RadialMenu from "../dist/radial-menu-component.common.js"
 
 // import BootstrapVue from 'bootstrap-vue'
 // import VueRecource from 'vue-resource'
