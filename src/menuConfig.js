@@ -9,7 +9,7 @@ export default {
         {height: 75, title:"QR", icon: Icons.qr, path:'/Qr',
             btns:[
                 {height: 50, title:"Pen", icon: Icons.pen, path:'/Pen', action: ()=>{ console.log('action'); return false; }},
-                {height: 50, title:"DATA", icon: Icons.data},
+                {height: 50, title:"DATA", icon: Icons.data, path:'/data', action: ()=>{ console.log('action'); return true; }},
                 {height: 50, title:"Bones", icon: Icons.bones},
                 {height: 50, title:"Sword",icon: Icons.sword},
             ]

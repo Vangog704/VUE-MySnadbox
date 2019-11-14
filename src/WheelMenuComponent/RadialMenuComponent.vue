@@ -102,7 +102,7 @@ export default {
                     : ``;
         },
 
-        //TODO move to utility funcs
+        //TODO move to utility func
         boxToSvgPath(box){
             return `${box.x} ${box.y} ${box.w} ${box.h}`
         },
@@ -154,6 +154,7 @@ export default {
         transform-origin: center center;
         width: inherit;
         height: inherit;
+        overflow: visible;
     }
 
     .svg-main{

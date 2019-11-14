@@ -11,7 +11,7 @@
                 @contextmenu="emitDefault($event, btn)"
             >
                 <a class="link"
-                    :href="`${btn.path | ''}`" 
+                    :href="`${btn.path || ''}`" 
                     @click="redirect($event,btn)"
                     @contextmenu.prevent="contextMenu($event,btn)"
                 >
@@ -41,7 +41,7 @@
             </g>
             <button-group 
                 @setText="emitText"
-                @rotate="transferRotatation($event)"
+                @rotate="transferRotation($event)"
                 :buttons="btn.children"
                 :box="box"
             />
@@ -54,6 +54,7 @@
 <script>
 import Victor from "victor";
 import CircularMenuBuilder from "./circular-menu-builder";
+import { normalize } from 'path';
 
 export default {
     name: "button-group",
@@ -69,18 +70,24 @@ export default {
     },
     methods: {
 
-        //TODO reworck method
+        //TODO rework method
         redirect(e,btn){
             if(btn.action && typeof btn.action === 'function') {
-                e.stopPropagation(); // menu dont hide
-                if(!btn.action()) e.preventDefault(); // redirect off
-                console.log("redirect",btn.path);
+                e.stopPropagation(); // menu don't hide
+                if(!btn.action()) {
+                    e.preventDefault(); // redirect off
+                    return;
+                }
             }
+            if(!btn.path) {
+                e.preventDefault();
+                e.stopPropagation();    
+            }else console.log("redirect", btn.path);
         },
 
         contextMenu(e, btn){
             //TODO add action callbacks
-            e.stopPropagation(); // menu dont hide
+            e.stopPropagation(); // menu don't hide
         },
 
         shape(){
@@ -97,7 +104,7 @@ export default {
         },
 
         buttonOverHandler(event, btn){
-            this.emitRotatation(event, btn);
+            this.emitRotation(event, btn);
             this.emitText(btn.title);
             this.strokeClass = "active-menu";
         },
@@ -106,7 +113,7 @@ export default {
             this.$emit('setText', text);
         },
 
-        emitRotatation(event, btn){
+        emitRotation(event, btn){
             this.$emit('rotate', btn.iconpos.clone().normalize().multiply(new Victor(12,12)));
         },
 
@@ -116,7 +123,7 @@ export default {
             this.strokeClass = "";
         },
 
-        transferRotatation(vector){
+        transferRotation(vector){
             this.$emit('rotate', vector);
         },
     },
@@ -179,7 +186,7 @@ export default {
                 stroke: var(--sel--btn-stroke-color);
             } 
             .icon{
-                fill: limegreen; 
+                fill: limegreen;
             }
         }  
         &:hover{

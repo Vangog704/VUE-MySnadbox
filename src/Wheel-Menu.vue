@@ -58,11 +58,11 @@ export default {
         num:Number
     },
     methods:{
-        showMenu(e, inctance){
-            inctance.visible = false;
+        showMenu(e, instance){
+            instance.visible = false;
             setTimeout(()=>{ 
-                inctance.pos = {x: e.pageX, y: e.pageY};  
-                inctance.visible = true;
+                instance.pos = {x: e.pageX, y: e.pageY};  
+                instance.visible = true;
             }, 200);
             return false;
         }
@@ -83,7 +83,7 @@ export default {
 .pink{
     
     .radial-menu-main{
-        --btn-color: rgb(255, 123, 152);
+        --btn-color: rgb(255, 123, 123);
         --btn-stroke-color: var(--btn-color);
         --sel--btn-color: rgba(40, 255, 244, .8);
         --sel--btn-stroke-color: rgb(40, 255, 244);
