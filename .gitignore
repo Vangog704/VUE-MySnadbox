@@ -4,8 +4,11 @@ npm-debug.log
 yarn-error.log
 radial-menu
 # Editor directories and files
+.vscode/
 .idea
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
+*.log
+.editorconfig
