@@ -1,7 +1,6 @@
 import Victor from "victor";
 
 function calcArcShape(btnconfig) {
-	// console.log("calc shape",btnconfig);
 	const outrad = btnconfig.radius;
 	const inrad = btnconfig.inrad;
 	let orvec = new Victor(0, -outrad);
@@ -19,16 +18,15 @@ function calcArcShape(btnconfig) {
 	center.rotateDeg(btnconfig.angle);
 	
 	// Set gap between arcs
-	addGapsToArcs(ps);
+	// addGapsToArcs(ps);
 
 	// Points to svg-path string
 	const path = pointsToArcPathStr(ps, inrad, outrad);
 	const path_r = pointsToRoundedArcPathStr(roundedEdgesToArcShape(ps, btnconfig.aperture, outrad), inrad, outrad);
 
 	const iconsize = calcIconSize(center, btnconfig.aperture, btnconfig.height);
-
-	return {
-		path: path,
+	let result = {
+		path_n: path,//TODO fix 
 		path_r: path_r,
 		currpath: path_r,
 		icon: btnconfig.icon,
@@ -41,6 +39,7 @@ function calcArcShape(btnconfig) {
 		iconsize: iconsize,
 		title: btnconfig.title
 	};
+	return result;
 }
 
 function addGapsToArcs(ps) {

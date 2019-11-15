@@ -4,13 +4,19 @@ import calc from "./circular-menu-config";
 export default class CircularMenuBuilder {
 
 	constructor(conf) {
-		this._conf = conf;
+		this._conf = {};
+		this._conf.aperture = conf.aperture;
+		this._conf.angle = conf.angle;
+		this._conf.radius = conf.radius;
+		this._conf.btns = conf.btns;
+		
+		// this._conf = conf;
 		this._res = [];
 		this._defAperture = 5;
 
-		let maxBtnCount = conf.aperture / this._defAperture;
-		let btns = conf.btns || [];
-		this._btnCount = (btns.length > maxBtnCount ? maxBtnCount : btns.length);
+		// let maxBtnCount = this._conf.aperture / this._defAperture;
+		// let btns = this._conf.btns || [];
+		// this._btnCount = (btns.length > maxBtnCount ? maxBtnCount : btns.length);
 	}
 
 	build() {
@@ -35,6 +41,7 @@ export default class CircularMenuBuilder {
 			//TODO add error massage
 			return false;
 		}
+		this._copyBtns();
 		return this._specifyAperture2() && this._specifyAngles() && this._specifyRadius();
 	}
 
@@ -83,29 +90,30 @@ export default class CircularMenuBuilder {
 
 	_specifyAperture2() {
 		this._conf.aperture = this._conf.aperture > 360 ? 360 : this._conf.aperture;
-		let btns = this._conf.btns; //?
+		let n_btns = this._conf.btns; //?
+
 		let baseAperture = this._conf.aperture;
 
 		let minDeg = 36;
 		let minAp = 100/360 * minDeg;
 		let sum;
-		for (let i in btns){
-			btns[i].aperture = btns[i].aperture || minAp;
-			if (btns[i].aperture > 50) btns[i].aperture = 50;
+		for (let i in n_btns){
+			n_btns[i].aperture = n_btns[i].aperture || minAp;
+			if (n_btns[i].aperture > 50) n_btns[i].aperture = 50;
 		}	
 		sum = 0;
-		for (let i in btns){
-			sum += btns[i].aperture;
+		for (let i in n_btns){
+			sum += n_btns[i].aperture;
 			if(sum > 100){
-				sum -= btns[i].aperture;
-				btns.splice(i, btns.length);
+				sum -= n_btns[i].aperture;
+				n_btns.splice(i, n_btns.length);
 				break;
 			}
 		}
-		
 		let coef = baseAperture/sum;
-		for (let i in btns){
-			btns[i].aperture *= coef;
+		for (let i in n_btns){
+			n_btns[i].aperture *= coef;
+			if(n_btns[i].aperture > 180) n_btns[i].aperture = 180;
 		}
 		return true;
 	}
@@ -122,5 +130,22 @@ export default class CircularMenuBuilder {
 			angle += btns[i].aperture/2;
 		}
 		return true;
+	}
+
+	_copyBtns(){
+		let n_btns = [];
+		let btns = this._conf.btns//short
+		for(let i in btns){
+			n_btns[i] = {
+				aperture: btns[i].aperture,
+				height: btns[i].height,
+				action: btns[i].action,
+				path: btns[i].path,
+				icon: btns[i].icon,
+				title: btns[i].title,
+			};
+			if(btns[i].btns) n_btns[i].btns = btns[i].btns;
+		}
+		this._conf.btns = n_btns;
 	}
 }

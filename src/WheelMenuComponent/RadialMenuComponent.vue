@@ -6,7 +6,7 @@
 
                     <text-component 
                         :titleText="text"
-                        :size="menushape[0].inrad*1.7"
+                        :size="textFiledSize"
                     />
 
                     <svg class="svg-main" 
@@ -71,7 +71,8 @@ export default {
 
         shape(){
             console.log("BUILD RADIAL-MENU");
-            return new CircularMenuBuilder(Object.assign({},this.conf)).build();
+            //TODO add full conf copying 
+            return new CircularMenuBuilder(this.conf).build();
         },
 
         mainStyle(){
@@ -127,7 +128,21 @@ export default {
         },
     },
     computed: {
-        
+        textFiledSize(){
+            if(this.menushape[0]) 
+                return this.menushape[0].inrad*1.7;
+            else return 0;  
+        }
+    },
+    watch: {
+        conf: {
+            handler(n, o) {                
+                console.log(n.btns);
+                this.menushape = this.shape();
+                // this.box = this.mainViewBox(this.menushape);
+            },
+            deep: true
+        }
     },
     mounted: function() {
 
