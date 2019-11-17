@@ -32,7 +32,7 @@
 
 <script>
 import Victor from "victor";
-import CircularMenuBuilder from "./circular-menu-builder";
+import RadialMenuBuilder from "./radial-menu-builder";
 import ButtonsGroup from "./RadialMenuComponentButtonGroup.vue";
 import TextComponent from "./TextComponent.vue";
 
@@ -72,7 +72,7 @@ export default {
         shape(){
             console.log("BUILD RADIAL-MENU");
             //TODO add full conf copying 
-            return new CircularMenuBuilder(this.conf).build();
+            return new RadialMenuBuilder(this.conf).build();
         },
 
         mainStyle(){
@@ -117,12 +117,12 @@ export default {
         },
 
         _maxRadius(btns){
-            let cmax,max = 0;
+            let cmax, max = 0;
             for (let btn of btns){
                 if(btn.children != null)
                     max = max > (cmax = this._maxRadius(btn.children)) ? max : cmax;
                 else 
-                    max = (max < btn.radius ? btn.radius : max);
+                    max = (max < btn.outrad ? btn.outrad : max);
             }
             return max;
         },
@@ -135,14 +135,7 @@ export default {
         }
     },
     watch: {
-        conf: {
-            handler(n, o) {                
-                console.log(n.btns);
-                this.menushape = this.shape();
-                // this.box = this.mainViewBox(this.menushape);
-            },
-            deep: true
-        }
+
     },
     mounted: function() {
 

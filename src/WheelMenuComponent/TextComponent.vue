@@ -22,7 +22,6 @@
 
 <script>
 import Victor from "victor";
-import CircularMenuBuilder from "./circular-menu-builder";
 import ButtonsGroup from "./RadialMenuComponentButtonGroup.vue";
 
 export default {

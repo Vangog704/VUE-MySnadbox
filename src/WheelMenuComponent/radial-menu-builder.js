@@ -1,7 +1,6 @@
-import Victor from "victor";
-import calc from "./circular-menu-config";
+import ArcButton from "./arc-button-class";
 
-export default class CircularMenuBuilder {
+export default class RadialMenuBuilder {
 
 	constructor(conf) {
 		this._conf = {};
@@ -27,9 +26,9 @@ export default class CircularMenuBuilder {
 		}
 		//TODO consider move somewhere
 		for (let i in this._conf.btns) {
-			this._res[i] = calc.calcArcShape(this._conf.btns[i]);
+			this._res[i] = new ArcButton(this._conf.btns[i]);
 			if (this._conf.btns[i].btns) {
-				this._res[i].children = new CircularMenuBuilder(this._conf.btns[i]).build();
+				this._res[i].children = new RadialMenuBuilder(this._conf.btns[i]).build();
 			}
 			this._res[i].id = i;
 		}

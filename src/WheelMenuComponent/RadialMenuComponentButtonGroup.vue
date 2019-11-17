@@ -53,8 +53,6 @@
 
 <script>
 import Victor from "victor";
-import CircularMenuBuilder from "./circular-menu-builder";
-import { normalize } from 'path';
 
 export default {
     name: "button-group",
