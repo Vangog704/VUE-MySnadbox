@@ -7,7 +7,7 @@
   "private": true,
   "scripts": {
     "build:project": "vue-cli-service build",
-    "build-lib:radial-menu": "cross-env OUTPUT_DIR=radial-menu vue-cli-service build --target lib --name radial-menu-component src/WheelMenuComponent/RadialMenuComponent.vue",
+    "build-lib:radial-menu": "cross-env OUTPUT_DIR=radial-menu vue-cli-service build --target lib --name radial-menu-component --no-clean src/WheelMenuComponent/RadialMenuComponent.vue",
     "run-vue-dev": "vue-cli-service serve --open",
     "postinstall": "npm install express",
     "dev": "cross-env NODE_ENV=development webpack-dev-server --open --hot",

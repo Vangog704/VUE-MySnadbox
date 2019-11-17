@@ -20,7 +20,7 @@ export default class ArcButton{
 
 		let self = this;
 		this.__proto__.util = {up:'0 0 1', down : '1 0 0'};
-		this._proxy = {
+		this.__proto__._proxy = {
 			get(target, prop){
 				return prop.split('_').reduce((accum,n)=>{
 					return accum +' '+ (self[n] ? self[n] : self.util[n] ? self.util[n] : target[n].x+','+target[n].y);

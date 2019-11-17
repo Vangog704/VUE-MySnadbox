@@ -1,18 +1,25 @@
-# test-vue-p5
+# Customized radial menu 
 
-> A Vue.js project
+> builded Vue component
 
-## Build Setup
+## Example
 
-``` bash
-# install dependencies
-npm install
+Import:
+```js
+import RadialMenu from "custom-radial-menu/radial-menu-component.common.js"
 
-# serve with hot reload at localhost:8080
-npm run dev
+Vue.component('radial-menu', RadialMenu)
 
-# build for production with minification
-npm run build
 ```
 
-For detailed explanation on how things work, consult the [docs for vue-loader](http://vuejs.github.io/vue-loader).
+vue > html
+```js
+import RadialMenu from "custom-radial-menu/icons.json"
+...
+<radial-menu    :conf="conf"
+                :pos="pos"
+                :visible="visible"
+/>
+```
+
+[link to nowhere]().
