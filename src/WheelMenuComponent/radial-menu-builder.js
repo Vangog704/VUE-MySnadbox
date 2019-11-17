@@ -3,6 +3,8 @@ import ArcButton from "./arc-button-class";
 export default class RadialMenuBuilder {
 
 	constructor(conf) {
+    this._minAperture = 5;//%
+
 		this._conf = {};
 		this._conf.aperture = conf.aperture;
 		this._conf.angle = conf.angle;
@@ -41,7 +43,7 @@ export default class RadialMenuBuilder {
 			return false;
 		}
 		this._copyBtns();
-		return this._specifyAperture2() && this._specifyAngles() && this._specifyRadius();
+		return this._specifyAperture() && this._specifyAngles() && this._specifyRadius();
 	}
 
 	_specifyRadius() {
@@ -57,9 +59,55 @@ export default class RadialMenuBuilder {
 		}
 
 		return true;
-	}
+  }
+  
+  _specifyAperture() {
+    //defines
+    const btns = this._conf.btns;
+    const minAp = this._minAperture;
+    this._conf.aperture = !this._conf.aperture | this._conf.aperture > 360 ? 360 : this._conf.aperture;
 
-	_specifyAperture() {
+    let sum = 0, // sum of btn apertures
+      undefsSum = 0,
+      undefs = [], //aperture sum and array of undefined (flex) btns
+      defsSum, // sum of defined buttons apertures
+      coef; //coefficient of flexibility
+
+    for (let i in btns) {
+      //validate apertures
+      if (!btns[i].aperture) {
+        btns[i].aperture = minAp;
+        if (100 - sum < btns[i].aperture) {
+          btns.splice(i, btns.length);
+          break;
+        } else {
+          undefsSum += btns[i].aperture;
+          undefs.push(btns[i]);
+        }
+      } else {
+        btns[i].aperture =
+          btns[i].aperture > 100
+            ? 100
+            : btns[i].aperture < minAp
+            ? minAp
+            : btns[i].aperture;
+        if (100 - sum < btns[i].aperture) {
+          btns.splice(i, btns.length);
+          break;
+        }
+      }
+      sum += btns[i].aperture;
+    } 
+    defsSum = sum - undefsSum;
+    coef = (100 - defsSum) / undefsSum;
+    for (let btn of undefs) btn.aperture *= coef; // stretch to 100 %
+    coef = this._conf.aperture / 100;
+    for (let btn of btns) btn.aperture *= coef; // stretch all to base aperture 
+
+    return true;
+  }
+
+	_specifyAperture1() {
 		//TODO rework algorithm 
 		let conf = this._conf;
 		let btns = conf.btns;
@@ -137,7 +185,7 @@ export default class RadialMenuBuilder {
 		for(let i in btns){
 			n_btns[i] = {
 				aperture: btns[i].aperture,
-				height: btns[i].height,
+				height: btns[i].height || 50,
 				action: btns[i].action,
 				path: btns[i].path,
 				icon: btns[i].icon,
