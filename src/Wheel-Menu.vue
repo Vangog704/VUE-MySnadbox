@@ -4,7 +4,7 @@
         @click="m1.visible = false; m2.visible = false"
         @contextmenu="m1.visible = false; m2.visible = false"
     >
-        <div class="purplesquare AAAATEST"
+        <div class="purplesquare"
             @contextmenu.prevent="showMenu($event, m1)" 
         ><h3 v-if="!m1.visible" >Right click here...</h3></div>   
         <div class="greensquare"

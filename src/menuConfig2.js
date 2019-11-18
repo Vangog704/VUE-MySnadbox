@@ -14,22 +14,22 @@ export default {
                 {height: 50, title:"Sword",icon: Icons.sword},
             ]
         },
-        {aperture: 20, height: 75, title:"Pen", icon: Icons.pen},
+        {aperture: .2, height: 75, title:"Pen", icon: Icons.pen},
         {height: 125, title:"Sword",icon: Icons.sword,
             btns:[
-                {aperture: 20, height: 50, title:"Pen", icon: Icons.pen},
+                {aperture: .2, height: 50, title:"Pen", icon: Icons.pen},
                 {height: 50, title:"DATA", icon: Icons.data},
                 {height: 50, title:"QR", icon: Icons.qr},
                 {height: 50, title:"Bones", icon: Icons.bones},
                 {height: 50, title:"Sword",icon: Icons.sword},
             ]
         },
-        {aperture: 20, height: 75, title:"Bones", icon: Icons.bones,
+        {aperture: .2, height: 75, title:"Bones", icon: Icons.bones,
             btns:[
                 {height: 50, title:"Pen", icon: Icons.pen},
                 {height: 50, title:"Bones", icon: Icons.bones},
                 {height: 50, title:"DATA", icon: Icons.data,},
-                {aperture: 20, height: 50, title:"ZIP", icon: Icons.zip},
+                {aperture: .2, height: 50, title:"ZIP", icon: Icons.zip},
             ]
         },
         {height: 75, title:"DATA", icon: Icons.data,
@@ -38,19 +38,19 @@ export default {
                     btns:[
                         {height: 50, title:"Pen", icon: Icons.pen},
                         {height: 50, title:"Bones", icon: Icons.bones},
-                        {aperture: 20, height: 50, title:"ZIP", icon: Icons.zip},
+                        {aperture: .2, height: 50, title:"ZIP", icon: Icons.zip},
                         {height: 50, title:"Sword",icon: Icons.sword},
                     ]   
                 },
                 {height: 100, title:"Sword",icon: Icons.sword},
             ]
         },
-        {aperture: 20, height: 75, title:"Head Phones", icon: Icons.headphone,
+        {aperture: .2, height: 75, title:"Head Phones", icon: Icons.headphone,
             btns:[
                 {height: 50, title:"DATA", icon: Icons.data},
                 {height: 50, title:"QR", icon: Icons.qr},
                 {height: 50, title:"Bones", icon: Icons.bones},
-                {aperture: 20, height: 50, title:"ZIP", icon: Icons.zip},
+                {aperture: .2, height: 50, title:"ZIP", icon: Icons.zip},
             ]
         },
         // {height: 50, title:"ZIP", icon: Icons.zip},
