@@ -3,7 +3,7 @@ import Victor from "victor";
 export default class ArcButton{
 	
 	constructor(conf) {
-		
+		this.gap = 3;
 		//TODO add validation
 		this.title = conf.title;
 		this.icon = conf.icon;
@@ -65,15 +65,13 @@ export default class ArcButton{
 
 	//TODO rework
 	_addGapsToArcs() {
-		const gap = 2; //TODO make customized
-		const gapvec = new Victor(gap, gap);
+		const gapvec = new Victor(this.gap, this.gap);
 		
 		// Horizontal gap vectors
 		const hor_gap_0_3 = this.ps[0].clone().normalize().multiply(gapvec);
 		const hor_gap_1_2 = this.ps[1].clone().normalize().multiply(gapvec);
 		// Vertical gap vector
 		let ver_gap;
-	
 		// Set gaps
 		ver_gap = this.ps[0].clone().rotate(Math.PI / 2).normalize().multiply(gapvec);
 		this.ps[0].add(ver_gap).subtract(hor_gap_0_3);
@@ -81,6 +79,8 @@ export default class ArcButton{
 		ver_gap = this.ps[1].clone().rotate(Math.PI / 2).normalize().multiply(gapvec);
 		this.ps[1].subtract(ver_gap).subtract(hor_gap_1_2);
 		this.ps[2].subtract(ver_gap).add(hor_gap_1_2);
+		this.outrad -= this.gap;
+		this.inrad += this.gap;
 	}
 	
 	_roundedEdgesToArcShape() {
