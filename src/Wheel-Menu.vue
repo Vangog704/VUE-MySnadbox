@@ -1,15 +1,21 @@
 <template>
     
     <div id="app"
-        @click="m1.visible = false; m2.visible = false"
-        @contextmenu="m1.visible = false; m2.visible = false"
+        @click="m1.visible = false; m2.visible = false, m3.visible = false; m4.visible = false"
+        @contextmenu="m1.visible = false; m2.visible = false; m3.visible = false; m4.visible = false"
     >
-        <div class="purplesquare"
+        <div class="square a-square"
             @contextmenu.prevent="showMenu($event, m1)" 
         ><h3 v-if="!m1.visible" >Right click here...</h3></div>   
-        <div class="greensquare"
+        <div class="square b-square"
             @contextmenu.prevent="showMenu($event, m2)" 
         ><h3 v-if="!m2.visible" >...or here...</h3></div>
+        <div class="square c-square"
+            @contextmenu.prevent="showMenu($event, m3)" 
+        ><h3 v-if="!m3.visible" >...or here...</h3></div>
+        <div class="square d-square"
+            @contextmenu.prevent="showMenu($event, m4)" 
+        ><h3 v-if="!m4.visible" >...or here...</h3></div>
 
         <radial-menu
             :conf="m1.conf"
@@ -23,6 +29,17 @@
             :visible="m2.visible"
         />
     </span>
+        <radial-menu
+            :conf="m3.conf"
+            :pos="m3.pos"
+            :visible="m3.visible"
+        />
+
+        <radial-menu
+            :conf="m4.conf"
+            :pos="m4.pos"
+            :visible="m4.visible"
+        />
 
     </div>
 
@@ -35,6 +52,7 @@ import { setTimeout } from 'timers';
 
 import menuConfig1 from './menuConfig';
 import menuConfig2 from './menuConfig2';
+import menuConfig3 from './menuConfig3';
 
 export default {
     name: 'app',
@@ -48,6 +66,16 @@ export default {
             },
             m2:{
                 conf: menuConfig2,
+                pos: {x:0, y:0},
+                visible:false, 
+            },
+            m3:{
+                conf: menuConfig3,
+                pos: {x:0, y:0},
+                visible:false, 
+            },
+            m4:{
+                conf: menuConfig3,
                 pos: {x:0, y:0},
                 visible:false, 
             },
@@ -104,27 +132,31 @@ export default {
     }
 }
 
-.greensquare{
+.square{
     color: white;
     overflow: hidden;
     position: absolute;
-    top: 200px;
-    left: 850px;
     width: 200px;
     height: 200px;
     background-color: purple;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='49' viewBox='0 0 28 49'%3E%3Cg fill-rule='evenodd'%3E%3Cg id='hexagons' fill='%23ffc059' fill-opacity='0.14' fill-rule='nonzero'%3E%3Cpath d='M13.99 9.25l13 7.5v15l-13 7.5L1 31.75v-15l12.99-7.5zM3 17.9v12.7l10.99 6.34 11-6.35V17.9l-11-6.34L3 17.9zM0 15l12.98-7.5V0h-2v6.35L0 12.69v2.3zm0 18.5L12.98 41v8h-2v-6.85L0 35.81v-2.3zM15 0v7.5L27.99 15H28v-2.31h-.01L17 6.35V0h-2zm0 49v-8l12.99-7.5H28v2.31h-.01L17 42.15V49h-2z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
 }
-.purplesquare{
-    color: white;
-    overflow: hidden;
-    position: absolute;
+
+.a-square{
     top: 200px;
     left: 200px;
-    width: 200px;
-    height: 200px;
-    background-color: purple;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='49' viewBox='0 0 28 49'%3E%3Cg fill-rule='evenodd'%3E%3Cg id='hexagons' fill='%23ffc059' fill-opacity='0.14' fill-rule='nonzero'%3E%3Cpath d='M13.99 9.25l13 7.5v15l-13 7.5L1 31.75v-15l12.99-7.5zM3 17.9v12.7l10.99 6.34 11-6.35V17.9l-11-6.34L3 17.9zM0 15l12.98-7.5V0h-2v6.35L0 12.69v2.3zm0 18.5L12.98 41v8h-2v-6.85L0 35.81v-2.3zM15 0v7.5L27.99 15H28v-2.31h-.01L17 6.35V0h-2zm0 49v-8l12.99-7.5H28v2.31h-.01L17 42.15V49h-2z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.b-square{
+    top: 200px;
+    left: 450px;
+}
+.c-square{
+    top: 450px;
+    left: 200px;
+}
+.d-square{
+    top: 450px;
+    left: 450px;
 }
 
 #app{
