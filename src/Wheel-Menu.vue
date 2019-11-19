@@ -12,10 +12,10 @@
         ><h3 v-if="!m2.visible" >...or here...</h3></div>
         <div class="square c-square"
             @contextmenu.prevent="showMenu($event, m3)" 
-        ><h3 v-if="!m3.visible" >...or here...</h3></div>
+        ><h3 v-if="!m3.visible" >...</h3></div>
         <div class="square d-square"
             @contextmenu.prevent="showMenu($event, m4)" 
-        ><h3 v-if="!m4.visible" >...or here...</h3></div>
+        ><h3 v-if="!m4.visible" >...same.</h3></div>
 
         <radial-menu
             :conf="m1.conf"
@@ -53,6 +53,7 @@ import { setTimeout } from 'timers';
 import menuConfig1 from './menuConfig';
 import menuConfig2 from './menuConfig2';
 import menuConfig3 from './menuConfig3';
+import menuConfig4 from './menuConfig4';
 
 export default {
     name: 'app',
@@ -75,7 +76,7 @@ export default {
                 visible:false, 
             },
             m4:{
-                conf: menuConfig3,
+                conf: menuConfig4,
                 pos: {x:0, y:0},
                 visible:false, 
             },
