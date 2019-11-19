@@ -54,7 +54,7 @@ export default class RadialMenuBuilder {
 			//TODO make height edges
 		}
 		for (let i in btns) {
-			btns[i].inrad = conf.radius || 30;
+			btns[i].inrad = conf.radius || 5;
 			btns[i].radius = btns[i].inrad + btns[i].height;
 		}
 
