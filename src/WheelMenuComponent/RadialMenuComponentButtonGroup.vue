@@ -11,7 +11,7 @@
                 @contextmenu="emitDefault($event, btn)"
             >
                 <a class="link"
-                    :href="`${btn.path || ''}`" 
+                    :href="`${btn.path}`" 
                     @click="redirect($event,btn)"
                     @contextmenu.prevent="contextMenu($event,btn)"
                 >

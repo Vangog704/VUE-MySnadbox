@@ -3,11 +3,11 @@ import Victor from "victor";
 export default class ArcButton{
 	
 	constructor(conf) {
-		this.gap = 2;
+		this.__proto__.gap = 2;
 		//TODO add validation
 		this.title = conf.title;
 		this.icon = conf.icon;
-		this.path = conf.path;
+		this.path = conf.path || '';
 		this.action = conf.action;
 		
 		this.aperture = conf.aperture;
@@ -15,7 +15,7 @@ export default class ArcButton{
 		this.outrad = conf.radius;
 		this.inrad = conf.inrad;
 		this.angle = conf.angle;
-		
+
 		this.ps = [];
 
 		const self = this;
@@ -84,23 +84,25 @@ export default class ArcButton{
 	}
 	
 	_roundedEdgesToArcShape() {
-		let ps_r = [];
-		let ps = this.ps;
+		let ps_r = [],
+			ps = this.ps;
 	
+		const d_apert = this.aperture * .05; //delta aperture to short top/down sides
 		// o - out; i - in; p - point;  
 		let op1 = ps[0].clone(),
 			op2 = ps[1].clone(),
 			ip1 = ps[3].clone(),
 			ip2 = ps[2].clone();
-		const d_apert = this.aperture * .05;
 		
-		// l - line; t - ?;
+		// path[cube curve] vectors coefficients 
 		let olc = .8,
 			otc = .8, //TODO make customized
 			ilc = .2,
 			itc = .8;
-	
+		
+		//vector to short left side 
 		let lcl = ip1.clone().mix(op1, .15).subtract(ip1);
+		//vector to short right side  
 		let lcr = ip2.clone().mix(op2, .15).subtract(ip2);
 	
 		ps_r[15] = ps[3].clone().add(lcl);
